@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- 배경 원 -->
+  <circle cx="100" cy="100" r="90" fill="#3498db" opacity="0.1"/>
+  
+  <!-- 코드 브라켓 표현 -->
+  <path d="M60 70 L40 100 L60 130" stroke="#2980b9" stroke-width="8" fill="none"/>
+  <path d="M140 70 L160 100 L140 130" stroke="#2980b9" stroke-width="8" fill="none"/>
+  
+  <!-- 가운데 실시간 트래킹을 상징하는 펄스 동심원 -->
+  <circle cx="100" cy="100" r="20" fill="#e74c3c">
+    <animate attributeName="r" values="20;30;20" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="100" r="15" fill="#c0392b"/>
+  
+  <!-- 상단 텍스트 - CODE에서 COTE로 변경 -->
+  <text x="100" y="45" font-family="Arial, sans-serif" font-size="16" fill="#2c3e50" text-anchor="middle" font-weight="bold">COTE STUDY</text>
+  
+  <!-- 하단 텍스트 -->
+  <text x="100" y="165" font-family="Arial, sans-serif" font-size="12" fill="#2c3e50" text-anchor="middle">LIVE TRACKING</text>
+</svg>
