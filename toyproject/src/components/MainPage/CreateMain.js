@@ -1,13 +1,15 @@
-import Nav from "../Nav/Nav";
+import Nav from "../common/Nav";
 import Element from "./Elements/Element";
 
 function Main() {
   return (
     <div>
+      {/* 헤더 */}
       <Nav />
       <div>
         <h1>프로그램 이름</h1>
       </div>
+      {/* 스터디 정보 나타내기 */}
       <div>
         <Element title="어떤 프로그램인가요?" des="프로그램 설명..." />
         <Element title="사용하는 방법" des="사용 방법 설명..." />
