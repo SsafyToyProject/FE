@@ -1,4 +1,14 @@
 import { useState } from "react";
+import styled from "styled-components";
+
+const Header = styled.div`
+  padding: 10px;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 // 헤더 컴포넌트
 function Nav() {
   const [userInfo, setUserInfo] = useState([]);
@@ -6,7 +16,7 @@ function Nav() {
   const logout = () => setUserInfo(() => []);
 
   return (
-    <header>
+    <Header>
       <button>ToyProject</button>
       {/* 사용자 정보가 없으면 */}
       {userInfo.length === 0 ? (
@@ -21,7 +31,7 @@ function Nav() {
           <button>스터디 만들기</button>
         </span>
       )}
-    </header>
+    </Header>
   );
 }
 
