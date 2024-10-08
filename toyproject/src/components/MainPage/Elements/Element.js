@@ -1,3 +1,4 @@
+// 메인 화면에 들어갈 설명 요소
 function Element({ title, des }) {
   return (
     <div>
