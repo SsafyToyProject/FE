@@ -5,6 +5,7 @@ function App() {
     <div>
       <h1>App</h1>
       <Link to="/live">live</Link>
+      <Link to="/main">main</Link>
     </div>
   );
 }
