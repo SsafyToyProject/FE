@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Header = styled.div`
@@ -11,13 +12,20 @@ const Header = styled.div`
 
 // 헤더 컴포넌트
 function Nav() {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState([]);
-  const login = () => setUserInfo((current) => ["123", ...current]);
-  const logout = () => setUserInfo(() => []);
-
+  const login = () => {
+    setUserInfo((current) => ["123", ...current]);
+    navigate("/list");
+  };
+  const logout = () => {
+    // main화면으로 이동
+    setUserInfo(() => []);
+    navigate("/main");
+  };
   return (
     <Header>
-      <button>ToyProject</button>
+      <button onClick={() => navigate("/list")}>ToyProject</button>
       {/* 사용자 정보가 없으면 */}
       {userInfo.length === 0 ? (
         <span>

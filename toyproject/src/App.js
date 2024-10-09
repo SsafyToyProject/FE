@@ -7,6 +7,12 @@ function App() {
       <Link to="/live">live</Link>
       <br />
       <Link to="/main">main</Link>
+      <br />
+      <Link to="/list">StudyList</Link>
+      <br />
+      <Link to="/login">Login</Link>
+      <br />
+      <Link to="/signup">Signup</Link>
     </div>
   );
 }
