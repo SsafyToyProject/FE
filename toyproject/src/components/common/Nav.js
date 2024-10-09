@@ -1,46 +1,95 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const Header = styled.div`
-  padding: 10px;
-  background-color: black;
+const NavbarContainer = styled.nav`
+  box-sizing: border-box;
+  width: 100%;
+  background-color: #0d1117;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 20px;
 `;
 
-// 헤더 컴포넌트
-function Nav() {
-  const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState([]);
-  const login = () => {
-    setUserInfo((current) => ["123", ...current]);
-    navigate("/list");
-  };
-  const logout = () => {
-    // main화면으로 이동
-    setUserInfo(() => []);
-    navigate("/main");
-  };
-  return (
-    <Header>
-      <button onClick={() => navigate("/list")}>ToyProject</button>
-      {/* 사용자 정보가 없으면 */}
-      {userInfo.length === 0 ? (
-        <span>
-          <button onClick={login}>로그인</button>
-          <button>회원가입</button>
-        </span>
-      ) : (
-        // 사용자 정보가 있으면
-        <span>
-          <button onClick={logout}>로그아웃</button>
-          <button>스터디 만들기</button>
-        </span>
-      )}
-    </Header>
-  );
-}
+const Logo = styled.button`
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+  border-radius: 20px;
+  background-color: #2563eb;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+`;
 
-export default Nav;
+const NavLinks = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const NavButton = styled.button`
+  background-color: ${(props) => (props.color === "primary" ? "#2563eb" : "gray")};
+  color: ${(props) => (props.color === "primary" ? "white" : "white")};
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-left: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) => (props.color === "primary" ? "#1e40af" : "#6b7280")};
+  }
+`;
+
+const UserInfo = styled.span`
+  color: white;
+  margin-right: 15px;
+`;
+
+const Navbar = () => {
+  const navigate = useNavigate();
+  // 세션 스토리지 정보
+  const sessionStorage = window.sessionStorage;
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+  const userName = sessionStorage.getItem("userName");
+
+  // 로그아웃 이벤트
+  const handleLogout = () => {
+    sessionStorage.clear();
+    navigate("/login");
+  };
+
+  return (
+    <NavbarContainer>
+      <Link to="/main">
+        <Logo>ToyProject</Logo>
+      </Link>
+      <NavLinks>
+        {isLoggedIn ? (
+          // 로그인 중이라면
+          <>
+            <UserInfo>{userName}님 환영합니다!</UserInfo>
+            <Link to="/create-study">
+              <NavButton color="primary">스터디 만들기</NavButton>
+            </Link>
+            <NavButton onClick={handleLogout}>로그아웃</NavButton>
+          </>
+        ) : (
+          // 로그인 정보가 없으면
+          <>
+            <Link to="/login">
+              <NavButton>로그인</NavButton>
+            </Link>
+            <Link to="/signup">
+              <NavButton color="primary">회원 가입</NavButton>
+            </Link>
+          </>
+        )}
+      </NavLinks>
+    </NavbarContainer>
+  );
+};
+
+export default Navbar;
