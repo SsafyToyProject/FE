@@ -48,7 +48,7 @@ const UserInfo = styled.span`
   margin-right: 15px;
 `;
 
-const Navbar = () => {
+function Navbar() {
   const navigate = useNavigate();
   // 세션 스토리지 정보
   const sessionStorage = window.sessionStorage;
@@ -63,7 +63,8 @@ const Navbar = () => {
 
   return (
     <NavbarContainer>
-      <Link to="/main">
+      {/* 로고 클릭시 로그인 중이라면 스터디 목록으로 */}
+      <Link to={isLoggedIn ? "/list" : "/main"}>
         <Logo>ToyProject</Logo>
       </Link>
       <NavLinks>
@@ -83,13 +84,13 @@ const Navbar = () => {
               <NavButton>로그인</NavButton>
             </Link>
             <Link to="/signup">
-              <NavButton color="primary">회원 가입</NavButton>
+              <NavButton color="primary">회원가입</NavButton>
             </Link>
           </>
         )}
       </NavLinks>
     </NavbarContainer>
   );
-};
+}
 
 export default Navbar;

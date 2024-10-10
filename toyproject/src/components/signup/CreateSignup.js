@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import useInput from "../../hooks/useInput";
 
 // 스타일 정의
 const Container = styled.div`
@@ -59,21 +59,28 @@ const LinkGroup = styled.div`
   margin-top: 10px;
 `;
 
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 8px;
+`;
+
 const Title = styled.h1`
   margin-top: 0;
   text-align: center;
 `;
 
-const Signup = () => {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
+function Signup() {
+  const idInput = useInput();
+  const passwordInput = useInput();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // 회원가입 처리 로직 아래에 작성하기
     // 간단한 유효성 검사
-    if (!id || !password) {
+    if (!idInput.value || !passwordInput.value) {
       alert("아이디와 비밀번호를 모두 입력해주세요.");
       return;
     }
@@ -86,7 +93,7 @@ const Signup = () => {
     };
 
     // 아이디가 겹치지 않는다면
-    if (id !== dummyUser.id) {
+    if (idInput.value !== dummyUser.id) {
       // 회원가입 성공
       alert("회원가입 성공!");
       navigate("/login");
@@ -100,16 +107,21 @@ const Signup = () => {
     <Container>
       <FormWrapper>
         <form onSubmit={handleSubmit}>
-          <Title>회원 가입</Title>
+          <Title>회원가입</Title>
           <FormGroup>
             <Label htmlFor="id">아이디</Label>
-            <Input type="text" id="id" value={id} onChange={(e) => setId(e.target.value)} />
+            <Input type="text" id="id" {...idInput} />
           </FormGroup>
           <FormGroup>
             <Label htmlFor="password">비밀번호</Label>
-            <Input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <Input type="password" id="password" {...passwordInput} />
           </FormGroup>
-          <Button type="submit">회원 가입</Button>
+          <ButtonGroup>
+            <Button type="button" onClick={() => navigate(-1)}>
+              뒤로가기
+            </Button>
+            <Button type="submit">회원가입</Button>
+          </ButtonGroup>
         </form>
         <LinkGroup>
           <Link to="/login">로그인하기</Link>
@@ -117,6 +129,6 @@ const Signup = () => {
       </FormWrapper>
     </Container>
   );
-};
+}
 
 export default Signup;

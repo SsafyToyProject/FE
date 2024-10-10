@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import useInput from "../../hooks/useInput";
 
 // 스타일 정의
 const Container = styled.div`
@@ -59,14 +59,21 @@ const LinkGroup = styled.div`
   margin-top: 10px;
 `;
 
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 8px;
+`;
+
 const Title = styled.h1`
   margin-top: 0;
   text-align: center;
 `;
 
-const Login = () => {
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
+function Login() {
+  const idInput = useInput();
+  const passwordInput = useInput();
   const navigate = useNavigate();
   const sessionStorage = window.sessionStorage;
 
@@ -74,7 +81,7 @@ const Login = () => {
     e.preventDefault();
 
     // 간단한 유효성 검사
-    if (!id || !password) {
+    if (!idInput.value || !passwordInput.value) {
       alert("아이디와 비밀번호를 모두 입력해주세요.");
       return;
     }
@@ -86,7 +93,7 @@ const Login = () => {
       name: "홍길동",
     };
 
-    if (id === dummyUser.id && password === dummyUser.password) {
+    if (idInput.value === dummyUser.id && passwordInput.value === dummyUser.password) {
       // 로그인 성공
       // 사용자 정보를 sessionStorage에 저장
       sessionStorage.setItem("isLoggedIn", "true");
@@ -108,13 +115,18 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <FormGroup>
             <Label>아이디</Label>
-            <Input type="text" value={id} onChange={(e) => setId(e.target.value)} />
+            <Input type="text" {...idInput} />
           </FormGroup>
           <FormGroup>
             <Label>비밀번호</Label>
-            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <Input type="password" {...passwordInput} />
           </FormGroup>
-          <Button type="submit">로그인</Button>
+          <ButtonGroup>
+            <Button type="button" onClick={() => navigate(-1)}>
+              뒤로가기
+            </Button>
+            <Button type="submit">로그인</Button>
+          </ButtonGroup>
           <LinkGroup>
             <Link to="/signup">회원가입하기</Link>
           </LinkGroup>
@@ -122,6 +134,6 @@ const Login = () => {
       </FormWrapper>
     </Container>
   );
-};
+}
 
 export default Login;

@@ -51,7 +51,7 @@ const SectionDescription = styled.p`
   font-size: 14px;
 `;
 
-const ProgramMainPage = () => {
+function ProgramMainPage() {
   const sections = [
     {
       title: "어떤 프로그램인가요?",
@@ -90,6 +90,6 @@ const ProgramMainPage = () => {
       </PageContainer>
     </div>
   );
-};
+}
 
 export default ProgramMainPage;
