@@ -77,7 +77,7 @@ function MakeQuery() {
 
       <Section>
         <Label>선택된 태그</Label>
-        <QueryListContainer isEmpty={selectedQuery.length === 0}>
+        <QueryListContainer $isEmpty={selectedQuery.length === 0}>
           <QueryList>
             {selectedQuery.map((item) => (
               <QueryItem key={item.query_id} onClick={onDisSelectQuery}>

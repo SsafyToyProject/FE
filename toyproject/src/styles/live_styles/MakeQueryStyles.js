@@ -38,7 +38,7 @@ export const QueryListContainer = styled.div`
 
   // 아이템이 없을 때 보일 기본 메시지 스타일
   &::before {
-    content: "${(props) => (props.isEmpty ? "선택된 태그가 없습니다" : "")}";
+    content: "${(props) => (props.$isEmpty ? "선택된 태그가 없습니다" : "")}";
     color: #999;
     font-size: 0.9rem;
   }
