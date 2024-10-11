@@ -3,9 +3,16 @@ import useInput from "../../hooks/useInput";
 import Input from "../common/Input";
 
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 function StudyBody() {
     const { value, onChange } = useInput();
+
+    const navigate = useNavigate(); // useNavigate hook 사용
+
+    const goToCreateLiveSession = () => {
+        navigate("/create-study"); // 페이지 이동
+    };
 
     return (
         <StudyBodyDiv>
@@ -13,7 +20,8 @@ function StudyBody() {
             <Section>
                 <SectionHeader>
                     <h2>진행 중인 라이브</h2>
-                    <Button>라이브 만들기</Button> {/* 고민 중인 부분 : 라이브 만들기 버튼 위치*/}
+                    <Button onClick={goToCreateLiveSession}>라이브 만들기</Button>{" "}
+                    {/* 고민 중인 부분 : 라이브 만들기 버튼 위치*/}
                 </SectionHeader>
 
                 <LiveSessionCard>
@@ -39,7 +47,10 @@ function StudyBody() {
             <Section>
                 <h2>히스토리</h2>
                 <HistoryGrid>
-                    <HistoryCard>2024.10.03</HistoryCard>
+                    <HistoryCard>
+                        {/* <strong>라이브세션제목</strong> */}
+                        2024.10.03
+                    </HistoryCard>
                     <HistoryCard>2024.10.02</HistoryCard>
                     <HistoryCard>2024.10.01</HistoryCard>
                 </HistoryGrid>
@@ -118,7 +129,7 @@ const HistoryGrid = styled.div`
 `;
 
 const HistoryCard = styled.div`
-    width: fit-content;
+    width: 150px;
     background-color: #e0e7ff;
     padding: 20px;
     border-radius: 10px;
