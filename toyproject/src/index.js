@@ -3,6 +3,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Live from "./pages/Live";
+import Study from "./pages/Study";
+import CreateStudy from "./components/studymain/CreateStudy";
+
 import GlobalStyle from "./styles/GlobalStyle";
 import CreateLive from "./components/live/CreateLive";
 
@@ -20,6 +23,14 @@ const router = createBrowserRouter([
         element: <CreateLive />,
       },
     ],
+  },
+  {
+      path: "/study",
+      element: <Study />,
+  },
+  {
+      path: "/create-study",
+      element: <CreateStudy />,
   },
 ]);
 
