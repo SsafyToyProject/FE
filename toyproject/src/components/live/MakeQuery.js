@@ -23,7 +23,14 @@ function MakeQuery() {
   }, []);
 
   const onQueryClick = (e) => {
-    setSelectedQeury([...selectedQuery, { id: e.target.innerText, query: e.target.innerText }]);
+    const exists = selectedQuery.some((item) => item.id === e.target.innerText);
+
+    if (!exists) {
+      setSelectedQeury([
+        ...selectedQuery,
+        { id: e.target.innerText, query: e.target.innerText },
+      ]);
+    }
   };
 
   const onDisSelectQuery = (e) => {
