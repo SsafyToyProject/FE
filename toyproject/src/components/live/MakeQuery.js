@@ -1,7 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import useInput from "../../hooks/useInput";
-import Input from "../common/Input";
 import { queryToggle } from "../../pages/Live";
+import {
+  Container,
+  Section,
+  Label,
+  QueryList,
+  QueryItem,
+  RangeContainer,
+  Button,
+  CancelButton,
+  CustomInput,
+  QueryListContainer,
+} from "../../styles/live_styles/MakeQueryStyles";
 
 function MakeQuery() {
   const { setQtoggle } = useContext(queryToggle);
@@ -14,21 +25,26 @@ function MakeQuery() {
   const [selectedQuery, setSelectedQeury] = useState([]);
 
   useEffect(() => {
-    // 쿼리를 만들러 들어왔을 때 처음 fetch 하는 effect
     const queries = [];
-    for (let i = 0; i < 3; i++) {
-      queries.push({ id: "q" + i, query: "query" + i });
+    for (let i = 0; i < 10; i++) {
+      queries.push({ query_id: "q" + i, title: "query" + i, query_str: "" });
     }
     setQueryList(queries);
   }, []);
 
   const onQueryClick = (e) => {
-    const exists = selectedQuery.some((item) => item.id === e.target.innerText);
+    const exists = selectedQuery.some(
+      (item) => item.query_id === e.target.innerText
+    );
 
     if (!exists) {
       setSelectedQeury([
         ...selectedQuery,
-        { id: e.target.innerText, query: e.target.innerText },
+        {
+          query_id: e.target.innerText,
+          title: e.target.innerText,
+          query_str: "",
+        },
       ]);
     }
   };
@@ -36,72 +52,67 @@ function MakeQuery() {
   const onDisSelectQuery = (e) => {
     const newQueries = [];
     selectedQuery.forEach((item) => {
-      if (item.id !== e.target.innerText) {
+      if (item.query_id !== e.target.innerText) {
         newQueries.push(item);
       }
     });
 
     setSelectedQeury(newQueries);
-    console.log(newQueries);
   };
 
-  // 쿼리 만들기를 눌렀을 때 작동하는 부분
   const onMakeClick = () => {
     setQtoggle(false);
   };
 
-  // 취소하기 눌렀을 때 작동하는 부분
   const onCancel = () => {
     setQtoggle(false);
   };
 
   return (
-    <>
-      <div>
-        <div>
-          <span>쿼리 이름</span>
-          <Input name="queryname" {...queryName} />
-        </div>
+    <Container>
+      <Section>
+        <Label>쿼리 이름</Label>
+        <CustomInput name="queryname" {...queryName} />
+      </Section>
 
-        <div>
-          <span>선택된 태그</span>
-          <div>
-            <ul>
-              {/* 여기에 선택된 태그가 들어옴 */}
-              {selectedQuery.map((item) => (
-                <li key={item.id} onClick={onDisSelectQuery}>
-                  {item.query}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+      <Section>
+        <Label>선택된 태그</Label>
+        <QueryListContainer isEmpty={selectedQuery.length === 0}>
+          <QueryList>
+            {selectedQuery.map((item) => (
+              <QueryItem key={item.query_id} onClick={onDisSelectQuery}>
+                {item.title}
+              </QueryItem>
+            ))}
+          </QueryList>
+        </QueryListContainer>
+      </Section>
 
-        <div>
-          <span>쿼리 종류</span>
-          <div>
-            <ul>
-              {/* 여기에 태그 종류 들어옴 */}
-              {queryList.map((tag) => (
-                <li key={tag.id} onClick={onQueryClick}>
-                  {tag.query}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+      <Section>
+        <Label>쿼리 종류</Label>
+        <QueryList>
+          {queryList.map((tag) => (
+            <QueryItem key={tag.query_id} onClick={onQueryClick}>
+              {tag.title}
+            </QueryItem>
+          ))}
+        </QueryList>
+      </Section>
 
-        <div>
-          <span>문제 푼 사람 수 범위 선택</span>
-          <Input name="min" {...min} />
+      <Section>
+        <Label>문제 푼 사람 수 범위 선택</Label>
+        <RangeContainer>
+          <CustomInput name="min" {...min} />
           <span>~</span>
-          <Input name="max" {...max} />
-        </div>
+          <CustomInput name="max" {...max} />
+        </RangeContainer>
+      </Section>
 
-        <button onClick={onMakeClick}>쿼리 생성하기</button>
-        <button onClick={onCancel}>취소</button>
+      <div>
+        <Button onClick={onMakeClick}>쿼리 생성하기</Button>
+        <CancelButton onClick={onCancel}>취소</CancelButton>
       </div>
-    </>
+    </Container>
   );
 }
 
