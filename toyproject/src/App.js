@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 function App() {
+
   return (
     <div>
       <h1>App</h1>
@@ -13,6 +14,10 @@ function App() {
       <Link to="/login">Login</Link>
       <br />
       <Link to="/signup">Signup</Link>
+      <br />
+      <Link to="/study">study</Link>
+      <br />
+      <Link to="/create-study">create-study</Link>
     </div>
   );
 }
