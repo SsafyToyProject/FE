@@ -6,24 +6,38 @@ import Live from "./pages/Live";
 import Study from "./pages/Study";
 import CreateStudy from "./components/studymain/CreateStudy";
 
+import GlobalStyle from "./styles/GlobalStyle";
+import CreateLive from "./components/live/CreateLive";
+
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <App />,
-    },
-    {
-        path: "/live",
-        element: <Live />,
-    },
-    {
-        path: "/study",
-        element: <Study />,
-    },
-    {
-        path: "/create-study",
-        element: <CreateStudy />,
-    },
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/live",
+    element: <Live />,
+    children: [
+      {
+        path: "session",
+        element: <CreateLive />,
+      },
+    ],
+  },
+  {
+      path: "/study",
+      element: <Study />,
+  },
+  {
+      path: "/create-study",
+      element: <CreateStudy />,
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={router} />);
+root.render(
+  <>
+    <GlobalStyle />
+    <RouterProvider router={router} />
+  </>
+);
