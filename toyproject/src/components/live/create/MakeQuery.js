@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import useInput from "../../hooks/useInput";
-import { queryToggle } from "../../pages/Live";
+import useInput from "../../../hooks/useInput";
+import { queryToggle } from "../../../pages/Live";
 import {
   Container,
   Section,
@@ -12,7 +12,7 @@ import {
   CancelButton,
   CustomInput,
   QueryListContainer,
-} from "../../styles/live_styles/MakeQueryStyles";
+} from "../../../styles/live_styles/MakeQueryStyles";
 
 function MakeQuery() {
   const { setQtoggle } = useContext(queryToggle);
