@@ -1,4 +1,4 @@
-import useInput from "../../hooks/useInput";
+import useInput from "../../../hooks/useInput";
 import { useContext, useState } from "react";
 import {
   Container,
@@ -9,10 +9,10 @@ import {
   DifficultyList,
   DifficultyItem,
   CustomInput,
-} from "../../styles/live_styles/CreateLiveStyles";
+} from "../../../styles/live_styles/CreateLiveStyles";
 import { useNavigate } from "react-router-dom";
-import { queryToggle } from "../../pages/Live";
-import MakeQuery from "./MakeQuery";
+import { queryToggle } from "../../../pages/Live";
+import MakeQuery from "../create/MakeQuery";
 
 function CreateLive() {
   const startDateInput = useInput();
