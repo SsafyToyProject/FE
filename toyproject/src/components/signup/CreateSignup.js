@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
+import axios from "axios";
 import {
   Button,
   ButtonGroup,
@@ -17,30 +18,37 @@ function Signup() {
   const passwordInput = useInput();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // 회원가입 처리 로직 아래에 작성하기
     // 간단한 유효성 검사
     if (!idInput.value || !passwordInput.value) {
       alert("아이디와 비밀번호를 모두 입력해주세요.");
       return;
     }
 
-    // 임시 사용자 정보 사용
-    const dummyUser = {
-      id: "test",
-      password: "1234",
-      name: "홍길동",
-    };
+    // 회원가입 POST 요청 (파라미터: handle, password, level) (임시로 GET요청)
+    try {
+      const response = await axios.get("http://localhost:4000/signup", {
+        handle: idInput.value,
+        password: passwordInput.value,
+      });
 
-    // 아이디가 겹치지 않는다면
-    if (idInput.value !== dummyUser.id) {
-      // 회원가입 성공
-      alert("회원가입 성공!");
-      navigate("/login");
-    } else {
+      // 상태 코드가 200이면 회원가입 성공 (원래는 response.headers.status로 확인)
+      const statusCode = response.status;
+      if (statusCode === 200) {
+        alert("회원가입 성공!");
+        navigate("/login");
+      }
+      // 상태 코드가 401이면 이미 사용중인 아이디
+      else if (statusCode === 401) {
+        alert("이미 사용중인 아이디입니다");
+      }
       // 회원가입 실패
-      alert("이미 사용중인 아이디입니다.");
+      else {
+        alert("회원가입 실패!");
+      }
+    } catch (error) {
+      console.log("오류", error);
     }
   };
 

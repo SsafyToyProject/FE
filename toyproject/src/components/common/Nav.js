@@ -57,7 +57,7 @@ function Navbar() {
   // 로그아웃 이벤트
   const handleLogout = () => {
     sessionStorage.clear();
-    navigate("/login");
+    navigate("/main");
   };
 
   return (

@@ -1,0 +1,66 @@
+{
+  "login": {
+    "user_id": 123,
+    "handle": "test",
+    "level": 1
+  },
+
+  "signup": {
+    "user_id": 123,
+    "handle": "test",
+    "level": 1
+  },
+
+  "study": {
+    "user": {
+      "user_id": 123,
+      "num_studies": 3,
+      "studies": [
+        {
+          "study_id": 1
+        }
+      ]
+    }
+  },
+
+  "studyInfo": {
+    "study_id": 1,
+    "owner_id": 123,
+    "name": "스터디 1",
+    "description": "스터디 설명 1...",
+    "code": "string",
+    "study_member_cnt": 1,
+    "study_member": [
+      {
+        "user_id": 123
+      }
+    ]
+  },
+
+  "session": {
+    "study": {
+      "sessions": [
+        {
+          "session_id": 1,
+          "query_id": 1,
+          "start_at": "timestamp",
+          "end_at": "timestamp",
+          "problem_pool": "string",
+          "participants_cnt": 1,
+          "session_participants": [
+            {
+              "user_id": 1
+            }
+          ],
+          "problems_cnt": 1,
+          "session_problems": [
+            {
+              "problem_id": 1
+            }
+          ]
+        }
+      ],
+      "num_elements": 1
+    }
+  }
+}

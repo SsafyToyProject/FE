@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   Container,
   FormWrapper,
@@ -18,34 +19,40 @@ function Login() {
   const navigate = useNavigate();
   const sessionStorage = window.sessionStorage;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // 간단한 유효성 검사
     if (!idInput.value || !passwordInput.value) {
       alert("아이디와 비밀번호를 모두 입력해주세요.");
       return;
     }
+    // 로그인 POST 요청 (파라미터: handle, password) (임시로 GET요청)
+    try {
+      const response = await axios.get("http://localhost:4000/login", {
+        handle: idInput.value,
+        password: passwordInput.value,
+      });
 
-    // 임시 사용자 정보 사용
-    const dummyUser = {
-      id: "test",
-      password: "1234",
-      name: "홍길동",
-    };
+      // 상태 코드가 200이면 로그인 성공 (원래는 response.headers.status로 확인)
+      const statusCode = response.status;
+      const userInfo = response.data;
+      if (statusCode === 200) {
+        // 사용자 정보를 sessionStorage에 저장
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("userId", userInfo.user_id);
+        sessionStorage.setItem("userName", userInfo.handle);
+        sessionStorage.setItem("userLevel", userInfo.level);
 
-    if (idInput.value === dummyUser.id && passwordInput.value === dummyUser.password) {
-      // 로그인 성공
-      // 사용자 정보를 sessionStorage에 저장
-      sessionStorage.setItem("isLoggedIn", "true");
-      sessionStorage.setItem("userId", dummyUser.id);
-      sessionStorage.setItem("userName", dummyUser.name);
-
-      alert("로그인 성공!");
-      navigate("/study-list");
-    } else {
-      // 로그인 실패
-      alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+        alert("로그인 성공!");
+        navigate("/study-list");
+      }
+      // 상태 코드가 401이면 로그인 실패
+      else if (statusCode === 401) {
+        alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+      } else {
+        alert("서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.");
+      }
+    } catch (error) {
+      console.log("오류", error);
     }
   };
 

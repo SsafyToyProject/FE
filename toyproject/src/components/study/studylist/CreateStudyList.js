@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   PageContainer,
   Title,
@@ -10,25 +13,65 @@ import {
 import Nav from "../../common/Nav";
 
 function StudyList() {
-  const studies = [
-    { id: 1, title: "스터디 1", description: "스터디 설명 1...", isLive: 1 },
-    { id: 2, title: "스터디 2", description: "스터디 설명 2...", isLive: 0 },
-    { id: 3, title: "스터디 3", description: "스터디 설명 3...", isLive: 0 },
-  ];
+  // user가 가입한 스터디 목록 정보 배열
+  const [studiesInfo, setStudiesInfo] = useState([]);
+  const navigate = useNavigate();
 
-  studies.sort((o1, o2) => o2.isLive - o1.isLive);
+  useEffect(() => {
+    const fetchStudies = async () => {
+      try {
+        const sessionStorage = window.sessionStorage;
+        const userId = sessionStorage.getItem("userId");
+
+        // 사용자의 스터디 id 목록 가져오기
+        const userResponse = await axios.get("http://localhost:4000/study", {
+          params: { user_id: userId },
+        });
+
+        const studyIds = userResponse.data.user.studies.map((study) => study.study_id);
+
+        // 각 스터디의 상세 정보와 라이브 상태를 병렬로 가져오기
+        const studiesData = await Promise.all(
+          studyIds.map(async (studyId) => {
+            const [studyInfoResponse, liveResponse] = await Promise.all([
+              // 스터디 정보 상세 조회 (원래는 /study/{study_id} 로 가져와야 함)
+              axios.get("http://localhost:4000/studyInfo", { params: { study_id: studyId } }),
+              // 스터디의 모든 세션 조회 (원래는 /session/study/{study_id} 로 가져와야 함)
+              axios.get("http://localhost:4000/session", { params: { study_id: studyId } }),
+            ]);
+
+            return {
+              id: studyInfoResponse.data.study_id,
+              name: studyInfoResponse.data.name,
+              description: studyInfoResponse.data.description,
+              isLive: liveResponse.data.study.num_elements,
+            };
+          })
+        );
+
+        // 라이브 중인 스터디를 먼저 정렬
+        studiesData.sort((a, b) => b.isLive - a.isLive);
+        setStudiesInfo(studiesData);
+      } catch (error) {
+        console.error("스터디 정보를 불러오는 중 에러 발생:", error);
+      }
+    };
+
+    fetchStudies();
+  }, []);
 
   return (
     <div>
       <Nav />
       <PageContainer>
         <Title>스터디 목록</Title>
-        {studies.map((study) => (
+        {studiesInfo.map((study) => (
           <StudyCard key={study.id}>
-            {study.isLive ? <RightAlignedLabel $primary>라이브 코딩 진행중</RightAlignedLabel> : null}
-            <StudyTitle>{study.title}</StudyTitle>
+            {study.isLive > 0 && <RightAlignedLabel $primary>라이브 코딩 진행중</RightAlignedLabel>}
+            <StudyTitle>{study.name}</StudyTitle>
             <StudyDescription>{study.description}</StudyDescription>
-            <Button>입장하기</Button>
+            {/* 원래는 study_id 파라미터로 입장 */}
+            <Button onClick={() => navigate("/study")}>입장하기</Button>
           </StudyCard>
         ))}
       </PageContainer>
