@@ -1,4 +1,3 @@
-import React from "react";
 import {
   PageContainer,
   Title,
@@ -6,10 +5,9 @@ import {
   StudyTitle,
   StudyDescription,
   Button,
-  Label,
   RightAlignedLabel,
-} from "../../styles/list_styles/CreateListStyles";
-import Nav from "../common/Nav";
+} from "../../../styles/studylist_styles/CreateStudyListStyles";
+import Nav from "../../common/Nav";
 
 function StudyList() {
   const studies = [

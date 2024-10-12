@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -64,7 +63,7 @@ function Navbar() {
   return (
     <NavbarContainer>
       {/* 로고 클릭시 로그인 중이라면 스터디 목록으로 */}
-      <Link to={isLoggedIn ? "/list" : "/main"}>
+      <Link to={isLoggedIn ? "/study-list" : "/main"}>
         <Logo>ToyProject</Logo>
       </Link>
       <NavLinks>

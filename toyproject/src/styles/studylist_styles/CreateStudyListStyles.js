@@ -42,15 +42,12 @@ export const Button = styled.button`
   }
 `;
 
-export const Label = styled.label`
+export const RightAlignedLabel = styled.label`
   background-color: #4285f4;
   color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   padding: 8px 16px;
   font-size: 14px;
-`;
-
-export const RightAlignedLabel = styled(Label)`
   float: right;
 `;

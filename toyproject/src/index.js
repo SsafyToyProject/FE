@@ -8,9 +8,10 @@ import CreateStudy from "./components/studymain/CreateStudy";
 import GlobalStyle from "./styles/GlobalStyle";
 import CreateLive from "./components/live/CreateLive";
 import Main from "./pages/Main";
-import List from "./pages/List";
+import StudyList from "./pages/StudyList";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import LiveStandby from "./pages/LiveStandby";
 
 const router = createBrowserRouter([
   {
@@ -28,20 +29,20 @@ const router = createBrowserRouter([
     ],
   },
   {
-      path: "/study",
-      element: <Study />,
+    path: "/study",
+    element: <Study />,
   },
   {
-      path: "/create-study",
-      element: <CreateStudy />,
+    path: "/create-study",
+    element: <CreateStudy />,
   },
   {
     path: "/main",
     element: <Main />,
   },
   {
-    path: "/list",
-    element: <List />,
+    path: "/study-list",
+    element: <StudyList />,
   },
   {
     path: "/login",
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+  },
+  {
+    path: "/live-standby",
+    element: <LiveStandby />,
   },
 ]);
 
