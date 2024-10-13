@@ -11,7 +11,7 @@ import Main from "./pages/Main";
 import StudyList from "./pages/StudyList";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import LiveStandby from "./pages/LiveStandby";
+import SessionWait from "./pages/SessionWait";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/study",
+    path: "/study/:study_id",
     element: <Study />,
   },
   {
@@ -53,8 +53,8 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
-    path: "/live-standby",
-    element: <LiveStandby />,
+    path: "/session-wait",
+    element: <SessionWait />,
   },
 ]);
 

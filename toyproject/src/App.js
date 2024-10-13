@@ -6,7 +6,7 @@ function App() {
       <h1>App</h1>
       <Link to="/live">live</Link>
       <br />
-      <Link to="/live-standby">LiveStandby</Link>
+      <Link to="/session-wait">SessionWait</Link>
       <br />
       <Link to="/main">main</Link>
       <br />

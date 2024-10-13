@@ -44,6 +44,7 @@ function StudyList() {
               id: studyInfoResponse.data.study_id,
               name: studyInfoResponse.data.name,
               description: studyInfoResponse.data.description,
+              // 원래는 현재시간이 세션 시작시간과 종료시간 사이인지 확인해서 넣어줄 것
               isLive: liveResponse.data.study.num_elements,
             };
           })
@@ -70,8 +71,8 @@ function StudyList() {
             {study.isLive > 0 && <RightAlignedLabel $primary>라이브 코딩 진행중</RightAlignedLabel>}
             <StudyTitle>{study.name}</StudyTitle>
             <StudyDescription>{study.description}</StudyDescription>
-            {/* 원래는 study_id 파라미터로 입장 */}
-            <Button onClick={() => navigate("/study")}>입장하기</Button>
+            {/* study정보 prop으로 넘겨주기 */}
+            <Button onClick={() => navigate(`/study/${study.id}`, { state: study })}>입장하기</Button>
           </StudyCard>
         ))}
       </PageContainer>
