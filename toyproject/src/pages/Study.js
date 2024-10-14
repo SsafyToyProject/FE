@@ -1,12 +1,13 @@
 import StudyBody from "../components/studymain/StudyBody";
 import StudyInfo from "../components/studymain/StudyInfo";
+import Navbar from "../components/common/Nav";
 
 import styled from "styled-components";
 
 function Study() {
     return (
         <>
-            <h1>NAV</h1>
+            <Navbar />
             <StudyPageDiv>
                 <StudyInfo />
                 <StudyBody />

@@ -35,6 +35,7 @@ function StudyBody() {
                     </p>
                     <ButtonGroup>
                         <ActionButton primary>참가</ActionButton>
+                        {/* 이것도 useState를 써서 버튼을 눌렀냐 안 눌렀냐를 알 수 있잖아 그러면 누른 상태일 때 useEffect 써서 true가 되면 입장하기 hidden을 빼기 */}
                         <ActionButton>불참</ActionButton>
                         <ActionButton primary>입장하기</ActionButton>
                     </ButtonGroup>
@@ -108,6 +109,7 @@ const ButtonGroup = styled.div`
 
 const ActionButton = styled.button`
     background-color: ${(props) => (props.primary ? "#3b82f6" : "#e11d48")};
+    /* visibility: $hidden;  이것도 위의 방식대로 입장하기 버튼을 hidden으로 뒀다가 나중에 참가가 true가 되면 hidden 삭제하는 형식*/
     color: white;
     border: none;
     padding: 10px 15px;

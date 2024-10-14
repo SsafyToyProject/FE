@@ -6,14 +6,15 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 function CreateStudy() {
-    const [studyName, setStudyName] = useState("");
-    const [description, setDescription] = useState("");
-    const [rules, setRules] = useState("");
+    const { studyName, changeStudyName, clearStudyName } = useInput();
+    const { description, changeDescription, clearDescription } = useInput();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // 폼 제출 시 처리 로직
-        console.log("Study Created:", { studyName, description, rules });
+        console.log("Study Created:", { studyName, description });
+        // 생성하는 api 를 호출해야 함 post
+        // 생성 함수 리스폰스로 id 받냐
     };
 
     return (
@@ -24,18 +25,15 @@ function CreateStudy() {
                 <NameInput
                     type="text"
                     value={studyName}
-                    onChange={(e) => setStudyName(e.target.value)}
+                    onChange={changeStudyName}
                     placeholder="스터디 이름을 입력하세요"
                 />
 
                 <Label>스터디 설명</Label>
-                <Textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="스터디 설명을 입력하세요"
-                />
+                <Textarea value={description} onChange={changeDescription} placeholder="스터디 설명을 입력하세요" />
 
                 <Button type="submit">스터디 생성</Button>
+                {/* */}
             </Form>
         </CreateStudyDiv>
     );
