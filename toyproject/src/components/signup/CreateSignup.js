@@ -28,27 +28,24 @@ function Signup() {
 
     // 회원가입 POST 요청 (파라미터: handle, password, level) (임시로 GET요청)
     try {
-      const response = await axios.get("http://localhost:4000/signup", {
+      const response = await axios.post("/user/signup", {
         handle: idInput.value,
         password: passwordInput.value,
+        level: 16,
       });
 
-      // 상태 코드가 200이면 회원가입 성공 (원래는 response.headers.status로 확인)
-      const statusCode = response.status;
-      if (statusCode === 200) {
-        alert("회원가입 성공!");
-        navigate("/login");
-      }
-      // 상태 코드가 401이면 이미 사용중인 아이디
-      else if (statusCode === 401) {
+      alert("회원가입 성공!");
+      navigate("/login");
+    } catch (error) {
+      console.log("오류", error);
+      // 상태 코드가 409이면 이미 사용중인 아이디
+      if (error.response.status === 409) {
         alert("이미 사용중인 아이디입니다");
       }
       // 회원가입 실패
       else {
         alert("회원가입 실패!");
       }
-    } catch (error) {
-      console.log("오류", error);
     }
   };
 
