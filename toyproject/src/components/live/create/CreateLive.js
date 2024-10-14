@@ -1,5 +1,6 @@
 import useInput from "../../../hooks/useInput";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import {
   Container,
   InputContainer,
@@ -22,8 +23,19 @@ function CreateLive() {
   const countInput = useInput();
 
   const [difflist, setDiffList] = useState([]);
+  const [queryList, setQueryList] = useState([]);
   const navigate = useNavigate();
   const { qtoggle, setQtoggle } = useContext(queryToggle);
+
+  useEffect(() => {
+    async function fetch() {
+      await axios.get("/crawl/query").then((res) => {
+        console.log(res.data.items);
+        setQueryList(res.data.items);
+      });
+    }
+    fetch();
+  }, [qtoggle]);
 
   const onCountBtnClick = () => {
     const newDiff = [];
@@ -75,9 +87,13 @@ function CreateLive() {
           <InputContainer>
             <Label>쿼리 선택하기</Label>
             {/* <수정필요> 여기 옵션으로 DB에서 쿼리 리스트를 가져와야 함 */}
+
             <Select name="query" id="query">
-              <option value="queryId1">삼성코테 기출</option>
-              <option value="queryId2">커스텀 쿼리 1</option>
+              {queryList.map((item, idx) => (
+                <option key={idx} value={item.title}>
+                  {item.query_id}
+                </option>
+              ))}
             </Select>
             {/* 여기서 쿼리 만드는 페이지로 이동. makeQuery.js */}
             <Button type="button" onClick={onMakeQueryClick}>
