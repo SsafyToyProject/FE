@@ -14,7 +14,7 @@ import {
 } from "../../styles/sessionWait_styles/CreateSessionWaitStyles";
 
 function SessionWait() {
-  const { participants, setParticipants } = useState([]);
+  const [participants, setParticipants] = useState([]);
   const [problems, setProblems] = useState([]);
 
   // props는 세션 정보
@@ -43,18 +43,18 @@ function SessionWait() {
         <InfoBox>
           <LeftBox>
             <Title>시작시간</Title>
-            <Time>{props.startTime}</Time>
+            <Time>{/*props.startTime*/}</Time>
           </LeftBox>
           <Title>/</Title>
           <RightBox>
             <Title>제한시간</Title>
-            <Time>{props.timeLimit}</Time>
+            <Time>{/*props.timeLimit*/}</Time>
           </RightBox>
         </InfoBox>
         <DetailBox>
           {/* 참가자 정보는 5분전 혹은 실시간으로 세션id로 요청하기 */}
           <DetailItem>참가자 : {participants.map((p) => p + ", ")}</DetailItem>
-          <DetailItem>문제 수: {props.problemCount}개</DetailItem>
+          <DetailItem>문제 수: {/*props.problemCount*/}개</DetailItem>
         </DetailBox>
       </Container>
     </>

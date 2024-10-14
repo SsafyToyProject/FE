@@ -70,7 +70,10 @@ function StudyList() {
           <StudyCard key={study.id}>
             {study.isLive > 0 && <RightAlignedLabel $primary>라이브 코딩 진행중</RightAlignedLabel>}
             <StudyTitle>{study.name}</StudyTitle>
-            <StudyDescription>{study.description}</StudyDescription>
+            <StudyDescription>
+              {/* study 설명이 20자가 넘어가면 생략... */}
+              {study.description.length > 20 ? study.description.slice(0, 20) + "..." : study.description}
+            </StudyDescription>
             {/* study정보 prop으로 넘겨주기 */}
             <Button onClick={() => navigate(`/study/${study.id}`, { state: study })}>입장하기</Button>
           </StudyCard>
