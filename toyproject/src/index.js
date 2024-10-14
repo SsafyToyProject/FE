@@ -6,12 +6,15 @@ import Live from "./pages/Live";
 import Study from "./pages/Study";
 import CreateStudy from "./components/studymain/CreateStudy";
 import GlobalStyle from "./styles/GlobalStyle";
-import CreateLive from "./components/live/CreateLive";
+import CreateLive from "./components/live/create/CreateLive";
 import Main from "./pages/Main";
 import StudyList from "./pages/StudyList";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import SessionWait from "./pages/SessionWait";
+import Session from "./pages/Session";
+import SessionWait from "./components/live/session/SessionWait";
+import SessionProgress from "./components/live/session/SessionProgress";
 
 const router = createBrowserRouter([
   {
@@ -53,8 +56,18 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
-    path: "/session-wait",
-    element: <SessionWait />,
+    path: "/session/:session_id/:user_id",
+    element: <Session />,
+    children: [
+      {
+        path: "wait",
+        element: <SessionWait />,
+      },
+      {
+        path: "progress",
+        element: <SessionProgress />,
+      },
+    ],
   },
 ]);
 

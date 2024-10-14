@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 
 function App() {
+  const user_id = "user1";
+  const session_id = "1";
+
   return (
     <div>
       <h1>App</h1>
@@ -19,6 +22,8 @@ function App() {
       <Link to="/study">study</Link>
       <br />
       <Link to="/create-study">create-study</Link>
+      <br />
+      <Link to={`/session/${session_id}/${user_id}`}>세션의 모든것...</Link>
     </div>
   );
 }
