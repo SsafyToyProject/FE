@@ -11,7 +11,6 @@ import Main from "./pages/Main";
 import StudyList from "./pages/StudyList";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import SessionWait from "./pages/SessionWait";
 import Session from "./pages/Session";
 import SessionWait from "./components/live/session/SessionWait";
 import SessionProgress from "./components/live/session/SessionProgress";
