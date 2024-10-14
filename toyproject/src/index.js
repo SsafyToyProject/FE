@@ -8,12 +8,13 @@ import CreateStudy from "./components/studymain/CreateStudy";
 import GlobalStyle from "./styles/GlobalStyle";
 import CreateLive from "./components/live/create/CreateLive";
 import Main from "./pages/Main";
-import List from "./pages/List";
+import StudyList from "./pages/StudyList";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Session from "./pages/Session";
 import SessionWait from "./components/live/session/SessionWait";
 import SessionProgress from "./components/live/session/SessionProgress";
+import SessionWait from "./pages/SessionWait";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/study",
+    path: "/study/:study_id",
     element: <Study />,
   },
   {
@@ -43,8 +44,8 @@ const router = createBrowserRouter([
     element: <Main />,
   },
   {
-    path: "/list",
-    element: <List />,
+    path: "/study-list",
+    element: <StudyList />,
   },
   {
     path: "/login",

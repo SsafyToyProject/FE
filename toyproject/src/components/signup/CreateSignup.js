@@ -1,105 +1,54 @@
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import useInput from "../../hooks/useInput";
-
-// 스타일 정의
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f8f9fa;
-`;
-
-const FormWrapper = styled.div`
-  width: 400px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 15px;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  padding: 12px;
-  background-color: #3f51b5;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  &:hover {
-    background-color: #2c3d99;
-  }
-`;
-
-const LinkGroup = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  gap: 8px;
-`;
-
-const Title = styled.h1`
-  margin-top: 0;
-  text-align: center;
-`;
+import axios from "axios";
+import {
+  Button,
+  ButtonGroup,
+  Container,
+  FormGroup,
+  FormWrapper,
+  Input,
+  Label,
+  LinkGroup,
+  Title,
+} from "../../styles/signup_styles/CreateSignupStyles";
 
 function Signup() {
   const idInput = useInput();
   const passwordInput = useInput();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // 회원가입 처리 로직 아래에 작성하기
     // 간단한 유효성 검사
     if (!idInput.value || !passwordInput.value) {
       alert("아이디와 비밀번호를 모두 입력해주세요.");
       return;
     }
 
-    // 임시 사용자 정보 사용
-    const dummyUser = {
-      id: "test",
-      password: "1234",
-      name: "홍길동",
-    };
+    // 회원가입 POST 요청 (파라미터: handle, password, level) (임시로 GET요청)
+    try {
+      const response = await axios.get("http://localhost:4000/signup", {
+        handle: idInput.value,
+        password: passwordInput.value,
+      });
 
-    // 아이디가 겹치지 않는다면
-    if (idInput.value !== dummyUser.id) {
-      // 회원가입 성공
-      alert("회원가입 성공!");
-      navigate("/login");
-    } else {
+      // 상태 코드가 200이면 회원가입 성공 (원래는 response.headers.status로 확인)
+      const statusCode = response.status;
+      if (statusCode === 200) {
+        alert("회원가입 성공!");
+        navigate("/login");
+      }
+      // 상태 코드가 401이면 이미 사용중인 아이디
+      else if (statusCode === 401) {
+        alert("이미 사용중인 아이디입니다");
+      }
       // 회원가입 실패
-      alert("이미 사용중인 아이디입니다.");
+      else {
+        alert("회원가입 실패!");
+      }
+    } catch (error) {
+      console.log("오류", error);
     }
   };
 

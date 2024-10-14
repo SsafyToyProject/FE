@@ -9,9 +9,11 @@ function App() {
       <h1>App</h1>
       <Link to="/live">live</Link>
       <br />
+      <Link to="/session-wait">SessionWait</Link>
+      <br />
       <Link to="/main">main</Link>
       <br />
-      <Link to="/list">StudyList</Link>
+      <Link to="/study-list">StudyList</Link>
       <br />
       <Link to="/login">Login</Link>
       <br />
