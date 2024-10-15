@@ -21,38 +21,31 @@ function MakeQuery() {
   const min = useInput();
   const max = useInput();
 
-  const [queryList, setQueryList] = useState([]);
+  const [queryList, setQueryList] = useState([
+    "dfs",
+    "dp",
+    "math",
+    "implemantation",
+    "data_structures",
+    "graphs",
+    "greedy",
+    "sorting",
+    "binary_search",
+  ]);
   const [selectedQuery, setSelectedQeury] = useState([]);
 
-  useEffect(() => {
-    const queries = [];
-    for (let i = 0; i < 10; i++) {
-      queries.push({ query_id: "q" + i, title: "query" + i, query_str: "" });
-    }
-    setQueryList(queries);
-  }, []);
-
   const onQueryClick = (e) => {
-    const exists = selectedQuery.some(
-      (item) => item.query_id === e.target.innerText
-    );
+    const exists = selectedQuery.some((item) => item === e.target.innerText);
 
     if (!exists) {
-      setSelectedQeury([
-        ...selectedQuery,
-        {
-          query_id: e.target.innerText,
-          title: e.target.innerText,
-          query_str: "",
-        },
-      ]);
+      setSelectedQeury([...selectedQuery, e.target.innerText]);
     }
   };
 
   const onDisSelectQuery = (e) => {
     const newQueries = [];
     selectedQuery.forEach((item) => {
-      if (item.query_id !== e.target.innerText) {
+      if (item !== e.target.innerText) {
         newQueries.push(item);
       }
     });
@@ -79,9 +72,9 @@ function MakeQuery() {
         <Label>선택된 태그</Label>
         <QueryListContainer $isEmpty={selectedQuery.length === 0}>
           <QueryList>
-            {selectedQuery.map((item) => (
-              <QueryItem key={item.query_id} onClick={onDisSelectQuery}>
-                {item.title}
+            {selectedQuery.map((item, idx) => (
+              <QueryItem key={idx} onClick={onDisSelectQuery}>
+                {item}
               </QueryItem>
             ))}
           </QueryList>
@@ -91,9 +84,9 @@ function MakeQuery() {
       <Section>
         <Label>쿼리 종류</Label>
         <QueryList>
-          {queryList.map((tag) => (
-            <QueryItem key={tag.query_id} onClick={onQueryClick}>
-              {tag.title}
+          {queryList.map((tag, idx) => (
+            <QueryItem key={idx} onClick={onQueryClick}>
+              {tag}
             </QueryItem>
           ))}
         </QueryList>
