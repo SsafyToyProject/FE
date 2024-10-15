@@ -9,47 +9,48 @@ import { useLocation } from "react-router-dom";
 
 function StudyInfo() {
   // 구조 분해 할당
-  const [studyInfo, SetStudyInfo] = useState({});
+  //const [studyInfo, SetStudyInfo] = useState({});
   // studyInfo: response 값을 넣을 변수
   // 초기 studyInfo: {} <- useState 인자값
 
   // SetStudyInfo: studyInfo의 상태를 변경하는 함수
   // SetStudyInfo({study_id: 1}); -> studyInfo: {study_id: 1}
 
-  //   const location = useLocation();
+  const location = useLocation();
 
-  //   const studyInfo = location.state;
+  const studyInfo = location.state;
+  console.log(studyInfo);
 
-  useEffect(() => {
-    // api 호출
-    // const res = await axios.get(`http://localhost:8000/study/${studyID}`);
-    // 나중에 여기서 라우팅되어 넘어오는 스터디 아이디를 가져올 수 있거든 usePath 뭐시기 제공하는 걸 써서 api 호출할 때 넣는 것이다
+  // useEffect(() => {
+  //   // api 호출
+  //   // const res = await axios.get(`http://localhost:8000/study/${studyID}`);
+  //   // 나중에 여기서 라우팅되어 넘어오는 스터디 아이디를 가져올 수 있거든 usePath 뭐시기 제공하는 걸 써서 api 호출할 때 넣는 것이다
 
-    // 더미데이터
-    const response = {
-      study_id: 1,
-      owner_id: 1,
-      name: "코테 스터디",
-      description: "화수 9시-11시 진행",
-      code: "adsf9sgsdg8",
-      study_member_cnt: 2,
-      study_member: [
-        {
-          user_id: 8,
-          github_id: "Kimyebin00",
-        },
-        {
-          user_id: 9,
-          github_id: "ejoyee",
-        },
-      ],
-    };
-    // 콘솔에 찍어서 호출 잘 동작하는지 확인하기
-    // SetStudyInfo(res.data); // 이런 식으로 response를 studyInfo에 넣어주기
-    console.log(response);
-    SetStudyInfo(response);
-  }, []); // 빈배열이면 초기 렌더링할 때 useEff- 내부의 코드를 실행하는 것
-  // 배열 안에 있는 값에 변화가 생길 때마다 useEff-이 동작하는 건데 빈 배열일 때는 초기 렌더링할 때 동작하는 것 <<
+  //   // 더미데이터
+  //   const response = {
+  //     study_id: 1,
+  //     owner_id: 1,
+  //     name: "코테 스터디",
+  //     description: "화수 9시-11시 진행",
+  //     code: "adsf9sgsdg8",
+  //     study_member_cnt: 2,
+  //     study_member: [
+  //       {
+  //         user_id: 8,
+  //         github_id: "Kimyebin00",
+  //       },
+  //       {
+  //         user_id: 9,
+  //         github_id: "ejoyee",
+  //       },
+  //     ],
+  //   };
+  //   // 콘솔에 찍어서 호출 잘 동작하는지 확인하기
+  //   // SetStudyInfo(res.data); // 이런 식으로 response를 studyInfo에 넣어주기
+  //   console.log(response);
+  //   SetStudyInfo(response);
+  // }, []); // 빈배열이면 초기 렌더링할 때 useEff- 내부의 코드를 실행하는 것
+  // // 배열 안에 있는 값에 변화가 생길 때마다 useEff-이 동작하는 건데 빈 배열일 때는 초기 렌더링할 때 동작하는 것 <<
 
   return (
     <>

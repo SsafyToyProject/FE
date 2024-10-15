@@ -5,21 +5,21 @@ import Navbar from "../components/common/Nav";
 import styled from "styled-components";
 
 function Study() {
-    return (
-        <>
-            <Navbar />
-            <StudyPageDiv>
-                <StudyInfo />
-                <StudyBody />
-            </StudyPageDiv>
-        </>
-    );
+  return (
+    <>
+      <Navbar />
+      <StudyPageDiv>
+        <StudyInfo />
+        <StudyBody />
+      </StudyPageDiv>
+    </>
+  );
 }
 
 const StudyPageDiv = styled.div`
-    display: flex;
-    width: 100vw;
-    height: 100vh;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
 `;
 
 export default Study;

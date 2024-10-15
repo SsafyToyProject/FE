@@ -8,18 +8,27 @@ import { useNavigate } from "react-router-dom";
 
 function StudyBody() {
   const { value, onChange } = useInput();
+  const [sessionInfo, SetSessionInfo] = useState({});
 
   const navigate = useNavigate(); // useNavigate hook 사용
+
+  const [joinSession, SetJoinSession] = useState(false);
 
   const goToCreateLiveSession = () => {
     navigate("/create-study"); // 페이지 이동
   };
 
-  useEffect(async () => {
+  const getSessions = async () => {
     const response = await axios.get(`/session/study/${1}`);
-
     console.log(response.data.sessions);
-  }, []);
+    SetSessionInfo(response.data.sessions);
+  };
+
+  // 참가일 때, 호출이랑 입장하기일 때, 라우팅하는 메소드 선언해서
+  // 각 버튼 onClickEvent로 넣어주고 조건문대로 const joinSession 상태대로
+  // 1016 할 일
+
+  useEffect(() => getSessions(), []);
 
   return (
     <StudyBodyDiv>
@@ -31,7 +40,7 @@ function StudyBody() {
         </SectionHeader>
 
         <LiveSessionCard>
-          <strong>라이브세션제목</strong>
+          {/* <strong>라이브세션제목</strong> */}
           <p>
             {/* 고민 중인 부분 : 라이브명에 대한 이야기... */}
             <strong>시작 : </strong>2024.10.03 21:00
@@ -40,10 +49,9 @@ function StudyBody() {
             <strong>종료: </strong>2024.10.03 22:30
           </p>
           <ButtonGroup>
-            <ActionButton primary>참가</ActionButton>
+            {joinSession ? <ActionButton>입장하기</ActionButton> : <ActionButton>참가</ActionButton>}
+
             {/* 이것도 useState를 써서 버튼을 눌렀냐 안 눌렀냐를 알 수 있잖아 그러면 누른 상태일 때 useEffect 써서 true가 되면 입장하기 hidden을 빼기 */}
-            <ActionButton>불참</ActionButton>
-            <ActionButton primary>입장하기</ActionButton>
           </ButtonGroup>
         </LiveSessionCard>
       </Section>
@@ -114,7 +122,8 @@ const ButtonGroup = styled.div`
 `;
 
 const ActionButton = styled.button`
-  background-color: ${(props) => (props.primary ? "#3b82f6" : "#e11d48")};
+  /* background-color: ${(props) => (props.primary ? "#3b82f6" : "#e11d48")}; */
+  background-color: #3b82f6;
   /* visibility: $hidden;  이것도 위의 방식대로 입장하기 버튼을 hidden으로 뒀다가 나중에 참가가 true가 되면 hidden 삭제하는 형식*/
   color: white;
   border: none;
