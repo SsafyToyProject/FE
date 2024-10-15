@@ -1,4 +1,4 @@
-import CreateMain from "../components/MainPage/CreateMain";
+import CreateMain from "../components/mainpage/CreateMain";
 
 function Main() {
   return (
