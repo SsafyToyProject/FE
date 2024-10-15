@@ -71,7 +71,7 @@ function StudyList() {
                 {study.description.length > 20 ? study.description.slice(0, 20) + "..." : study.description}
               </StudyDescription>
               {/* study정보 prop으로 넘겨주기 */}
-              <Button onClick={() => navigate(`/study/${study.id}`, { state: study })}>입장하기</Button>
+              <Button onClick={() => navigate(`/study/${study.study_id}`, { state: study })}>입장하기</Button>
             </StudyCard>
           ))
         )}
