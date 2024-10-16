@@ -14,17 +14,8 @@ function CreateStudy() {
     e.preventDefault();
     // 폼 제출 시 처리 로직
     console.log("Study Created:", studyName.value, description.value);
-    // 생성하는 api 를 호출해야 함 post
-
     const session = window.sessionStorage;
-
-    // 세션 스토리지 window.getSessionStor... 뭐시기 <<<<<<<<<<<<<<
-    // 이걸 받아온 뒤에 const session
-    // session.getItem("userId") >> const
-    // ower_id
-
     // 실패 성공 처리 >> 성공 시, 가입한 스터디 목록 main / 실패 시, 경고문
-
     const response = await axios.post("/study/register", {
       owner_id: session.getItem("userId"),
       name: studyName.value,

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import Input from "../common/Input";
+import Input from "../../common/Input";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 // 기본적으로 사용하는 api 호출 함수가 fetch랑 axios가 있는데

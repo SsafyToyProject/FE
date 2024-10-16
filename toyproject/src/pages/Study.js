@@ -1,5 +1,5 @@
-import StudyBody from "../components/studymain/StudyBody";
-import StudyInfo from "../components/studymain/StudyInfo";
+import StudyBody from "../components/Study/studymain/StudyBody";
+import StudyInfo from "../components/Study/studymain/StudyInfo";
 import Navbar from "../components/common/Nav";
 
 import styled from "styled-components";

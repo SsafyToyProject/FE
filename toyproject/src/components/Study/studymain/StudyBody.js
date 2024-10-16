@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import useInput from "../../hooks/useInput";
-import Input from "../common/Input";
+import useInput from "../../../hooks/useInput";
+import Input from "../../common/Input";
 import axios from "axios";
 
 import styled from "styled-components";
@@ -8,25 +8,45 @@ import { useNavigate } from "react-router-dom";
 
 function StudyBody() {
   const { value, onChange } = useInput();
-  const [sessionInfo, SetSessionInfo] = useState({});
-
   const navigate = useNavigate(); // useNavigate hook 사용
 
-  const [joinSession, SetJoinSession] = useState(false);
+  const [sessionInfo, SetSessionInfo] = useState({}); // 세션 정보 목록
+  const [selectedSession, setSelectedSession] = useState(null); // 선택 세션 - 나중에 대기화면으로 넘길 때
+  const [hasJoined, SetHasJoined] = useState(false); // 참가 여부 판단할 변수
 
+  // 세션 만들기 페이지로 이동
   const goToCreateLiveSession = () => {
-    navigate("/create-study"); // 페이지 이동
+    navigate("/create-study"); // 임시로 스터디 개설 페이지로 연결
   };
 
+  // 세션 정보 받아오기 get
   const getSessions = async () => {
     const response = await axios.get(`/session/study/${1}`);
     console.log(response.data.sessions);
     SetSessionInfo(response.data.sessions);
   };
 
+  // 참가 버튼 클릭 시, 동작 메소드
+  const participate = async (sessionId) => {
+    // api 호출
+    // url : /session/participate
+    //  request 데이터
+    // {
+    //	"user_id": int,
+    //  "session_id": int,
+    // }
+
+    SetHasJoined(true);
+  };
+
+  const goToLiveSessionPage = () => {
+    // 대기 페이지로 라우팅
+    // navigate("/session/", { state:sessionInfo[idx]});
+  };
+
+  // 1016 할 일
   // 참가일 때, 호출이랑 입장하기일 때, 라우팅하는 메소드 선언해서
   // 각 버튼 onClickEvent로 넣어주고 조건문대로 const joinSession 상태대로
-  // 1016 할 일
 
   useEffect(() => getSessions(), []);
 
@@ -49,7 +69,11 @@ function StudyBody() {
             <strong>종료: </strong>2024.10.03 22:30
           </p>
           <ButtonGroup>
-            {joinSession ? <ActionButton>입장하기</ActionButton> : <ActionButton>참가</ActionButton>}
+            {hasJoined ? (
+              <ActionButton onClick={goToLiveSessionPage}>입장하기</ActionButton>
+            ) : (
+              <ActionButton>참가</ActionButton>
+            )}
 
             {/* 이것도 useState를 써서 버튼을 눌렀냐 안 눌렀냐를 알 수 있잖아 그러면 누른 상태일 때 useEffect 써서 true가 되면 입장하기 hidden을 빼기 */}
           </ButtonGroup>
