@@ -29,7 +29,7 @@ function MakeQuery() {
     "dfs",
     "dp",
     "math",
-    "implemantation",
+    "implementation",
     "data_structures",
     "graphs",
     "greedy",

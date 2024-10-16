@@ -28,7 +28,7 @@ import {
 }
 
 즉, 특정 유저의 특정 문제에 대해 정보를 하나 가지고 온다. 
-그러니깐, (사람수 * 문제 수) 만큼의 요청이 매번 필요한 느낌?
+그러니깐, 1분마다 (사람수 * 문제 수) 만큼의 요청이 매번 필요한 느낌?
 */
 function SessionProgress() {
   const [userList, setUserList] = useState([]);
