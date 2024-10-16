@@ -58,7 +58,7 @@ function SessionWait() {
       // 참가자 정보 저장하기
       setParticipants(response.data.session_participants);
     } catch (error) {
-      console.error("문제 정보를 불러오는 중 에러 발생:", error);
+      alert("문제 정보를 불러오는 중 에러 발생");
     }
   };
 
@@ -66,7 +66,7 @@ function SessionWait() {
   useInterval(() => {
     setNow(dayjs()); // 현재 시간 갱신
     const timeDiff = dayjs(props.start_at).diff(now, "s");
-
+    console.log(timeDiff);
     // 세션 시작 3분 전이면 문제 정보 요청 (임시로 10초 전으로 설정)
     if (timeDiff === 10) {
       fetchInfo();
