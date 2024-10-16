@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 /*
@@ -40,18 +41,46 @@ export default function ProgressUserDetail({
   user_id,
   session_id,
   problem_id,
-  key,
+  index,
 }) {
-  // 임시 데이터: 실제 데이터는 props 또는 상태로 전달받아 사용해야 합니다.
-  const performance = Math.floor(Math.random() * 100); // 퍼포먼스는 랜덤 수치로 예시
-  const language = "JAVA"; // 언어는 임시로 설정
+  const [data, setData] = useState({
+    num_elements: 0,
+    trackers: [
+      {
+        solved_at: null,
+        performance: null,
+        language: null,
+        code_link: null,
+        description: null,
+      },
+    ],
+  });
+
+  useEffect(() => {
+    // 이제 이 fetch가 1분에 한번씩 호출되는 로직 추가해야함.
+    async function fetch() {
+      try {
+        const response = await axios.get(
+          `/tracker/info/${session_id}/${user_id}/${problem_id}`
+        );
+        //console.log(response.data);
+        setData(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetch();
+  }, []);
 
   return (
     <>
-      <TableCellWrapper key={key}>
-        <StatusText>SUCCESS!!</StatusText>
-        <InfoText>사용 언어: {language}</InfoText>
-        <InfoText>실행 시간: {performance}ms</InfoText>
+      <TableCellWrapper key={index}>
+        <StatusText>
+          {data.trackers[0].solved_at != null ? "SUCCESS!!" : "FAILED.."}
+        </StatusText>
+        <InfoText>사용 언어: {data.trackers[0].language}</InfoText>
+        <InfoText>실행 시간: {data.trackers[0].performance}ms</InfoText>
       </TableCellWrapper>
     </>
   );

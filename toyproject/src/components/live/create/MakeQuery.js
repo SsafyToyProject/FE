@@ -79,6 +79,7 @@ function MakeQuery() {
   };
 
   // 만들기 클릭 => 이거 쿼리등록 엄청 오래걸려서 이거 하는 동안 로딩이 보이게끔 수정해야 함...
+  // 지금 만약에 쿼리 조합에 따라서 문제 수가 0개인 경우 400 error 발생 => 에러 컨트롤 해줘야함
   const onMakeClick = async () => {
     // 스트링 만들기
     let queryStr = "";
