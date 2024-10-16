@@ -38,7 +38,7 @@ function ProgramMainPage() {
         {sections.map((section, index) => (
           <Container key={index}>
             <BlueBar />
-            <Section onClick={() => console.log(`Clicked ${section.title}`)}>
+            <Section>
               <Content>
                 <SectionTitle>{section.title}</SectionTitle>
                 <SectionDescription>{section.description}</SectionDescription>
