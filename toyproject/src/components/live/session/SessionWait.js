@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+import useInterval from "../../../hooks/useInterval";
 import axios from "axios";
+import dayjs from "dayjs";
 import Nav from "../../common/Nav";
 import {
   Container,
@@ -29,7 +31,7 @@ prop으로 progress에 넘겨 줘야 할것: problem list
 }
 
 */
-
+  const [now, setNow] = useState(1);
   const [participants, setParticipants] = useState([]);
   const [problems, setProblems] = useState([]);
 
@@ -37,6 +39,31 @@ prop으로 progress에 넘겨 줘야 할것: problem list
   const navigate = useNavigate();
   const location = useLocation();
   const props = location.state;
+
+  // 문제 정보 GET 요청
+  const fetchProblems = async () => {
+    try {
+    } catch (error) {
+      console.error("문제 정보를 불러오는 중 에러 발생:", error);
+    }
+  };
+
+  // 참가자 정보 GET 요청
+  const fetchSession = async () => {
+    try {
+    } catch (error) {
+      console.error("문제 정보를 불러오는 중 에러 발생:", error);
+    }
+  };
+
+  // 1초마다 현재시간 체크
+  useInterval(() => {
+    setNow(dayjs().diff(dayjs("2021-10-11 10:30:25.495", "YYYY-MM-DD HH:mm:ss.SSS"), "s"));
+    // 3분 차이나면 문제 정보 요청
+    fetchProblems();
+    // 0초 차이나면 progress로 이동
+    fetchSession();
+  }, 1000);
 
   // 시작 5분 전에 문제 정보를 받아올 것 / 참가자 정보도 받아올 것
   // useEffect(() => {
