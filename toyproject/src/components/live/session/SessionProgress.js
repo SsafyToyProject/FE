@@ -12,7 +12,7 @@ import {
 트래커 fetch url: /tracker/info/{session_id}/{user_id}/{problem_id}
 요청 파라미터: {
 	"session_id" : int,
-	"used_id" : int,
+	"user_id" : int (userId),
 	"problem_id" : int
 }
 
