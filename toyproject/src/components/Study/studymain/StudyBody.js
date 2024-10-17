@@ -27,7 +27,7 @@ function StudyBody() {
   };
 
   // 참가 버튼 클릭 시, 동작 메소드
-  const participate = async (sessionId) => {
+  const joinSession = async (sessionId) => {
     // api 호출
     // url : /session/participate
     //  request 데이터
@@ -35,6 +35,9 @@ function StudyBody() {
     //	"user_id": int,
     //  "session_id": int,
     // }
+
+    try {
+    } catch (error) {}
 
     SetHasJoined(true);
   };
