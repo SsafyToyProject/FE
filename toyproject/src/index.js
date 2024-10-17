@@ -12,6 +12,7 @@ import StudyList from "./pages/StudyList";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Session from "./pages/Session";
+import StudyInvite from "./pages/StudyInvite";
 import SessionWait from "./components/live/session/SessionWait";
 import SessionProgress from "./components/live/session/SessionProgress";
 
@@ -47,7 +48,11 @@ const router = createBrowserRouter([
     element: <StudyList />,
   },
   {
-    path: "/login",
+    path: "/study-invite/:code",
+    element: <StudyInvite />,
+  },
+  {
+    path: "/login/:code",
     element: <Login />,
   },
   {

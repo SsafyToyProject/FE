@@ -75,6 +75,7 @@ function SessionWait() {
     // 세션 시작 시간이 되면 progress 화면으로 이동
     if (timeDiff === 0) {
       console.log(problems);
+      alert("시작합니다~");
       navigate(`/session/${props.session_id}/${user_id}/progress`, { state: problems });
     }
   }, 1000);

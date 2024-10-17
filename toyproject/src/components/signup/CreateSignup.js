@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import axios from "axios";
 import {
@@ -17,6 +17,7 @@ function Signup() {
   const idInput = useInput();
   const passwordInput = useInput();
   const navigate = useNavigate();
+  const params = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +36,7 @@ function Signup() {
       });
 
       alert("회원가입 성공!");
-      navigate("/login");
+      navigate(`/login/${params.code}`);
     } catch (error) {
       console.log("오류", error);
       // 상태 코드가 409이면 이미 사용중인 아이디
@@ -70,7 +71,7 @@ function Signup() {
           </ButtonGroup>
         </form>
         <LinkGroup>
-          <Link to="/login">로그인하기</Link>
+          <Link to={`/login/${params.code}`}>로그인하기</Link>
         </LinkGroup>
       </FormWrapper>
     </Container>

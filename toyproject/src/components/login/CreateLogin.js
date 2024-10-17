@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
   Container,
@@ -17,6 +17,7 @@ function Login() {
   const idInput = useInput();
   const passwordInput = useInput();
   const navigate = useNavigate();
+  const params = useParams();
   const sessionStorage = window.sessionStorage;
 
   const handleSubmit = async (e) => {
@@ -39,8 +40,17 @@ function Login() {
       sessionStorage.setItem("userName", userInfo.handle);
       sessionStorage.setItem("userLevel", userInfo.level);
 
-      alert("로그인 성공!");
-      navigate("/study-list");
+      // 그냥 로그인 할 때
+      if (params.code === "0") {
+        alert("로그인 성공!");
+        navigate("/study-list");
+      }
+      // 초대 링크를 통해 로그인 할 때
+      else {
+        // 초대 링크로 다시 이동
+        alert("로그인 성공, 스터디 초대 화면으로 갑니다");
+        navigate(`/study-invite/${params.code}`);
+      }
     } catch (error) {
       console.log("오류", error);
       // 상태 코드가 401이면 로그인 실패
@@ -72,7 +82,7 @@ function Login() {
             <Button type="submit">로그인</Button>
           </ButtonGroup>
           <LinkGroup>
-            <Link to="/signup">회원가입하기</Link>
+            <Link to={`/signup/${params.code}`}>회원가입하기</Link>
           </LinkGroup>
         </form>
       </FormWrapper>
