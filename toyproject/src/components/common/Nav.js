@@ -79,10 +79,10 @@ function Navbar() {
         ) : (
           // 로그인 정보가 없으면
           <>
-            <Link to="/login">
+            <Link to="/login/0">
               <NavButton>로그인</NavButton>
             </Link>
-            <Link to="/signup">
+            <Link to="/signup/0">
               <NavButton color="primary">회원가입</NavButton>
             </Link>
           </>
