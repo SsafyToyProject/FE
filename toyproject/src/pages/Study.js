@@ -1,24 +1,25 @@
-import StudyBody from "../components/studymain/StudyBody";
-import StudyInfo from "../components/studymain/StudyInfo";
+import StudyBody from "../components/Study/studymain/StudyBody";
+import StudyInfo from "../components/Study/studymain/StudyInfo";
+import Navbar from "../components/common/Nav";
 
 import styled from "styled-components";
 
 function Study() {
-    return (
-        <>
-            <h1>NAV</h1>
-            <StudyPageDiv>
-                <StudyInfo />
-                <StudyBody />
-            </StudyPageDiv>
-        </>
-    );
+  return (
+    <>
+      <Navbar />
+      <StudyPageDiv>
+        <StudyInfo />
+        <StudyBody />
+      </StudyPageDiv>
+    </>
+  );
 }
 
 const StudyPageDiv = styled.div`
-    display: flex;
-    width: 100vw;
-    height: 100vh;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
 `;
 
 export default Study;
