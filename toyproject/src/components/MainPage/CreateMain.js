@@ -1,55 +1,14 @@
-import React from "react";
-import styled from "styled-components";
 import Nav from "../common/Nav";
-
-const Container = styled.div`
-  display: flex;
-  max-width: 800px;
-  height: 100px;
-  margin: 0 auto;
-  padding: 20px;
-`;
-
-const PageContainer = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-`;
-
-const MainTitle = styled.h1`
-  font-size: 28px;
-  text-align: center;
-  margin-bottom: 40px;
-`;
-
-const Section = styled.div`
-  margin-bottom: 30px;
-  cursor: pointer;
-  display: flex;
-  align-items: flex-start;
-`;
-
-const BlueBar = styled.div`
-  width: 4px;
-  height: 100%;
-  background-color: #4285f4;
-  margin-right: 16px;
-  flex-shrink: 0;
-`;
-
-const Content = styled.div`
-  flex-grow: 1;
-`;
-
-const SectionTitle = styled.h2`
-  font-size: 20px;
-  margin-bottom: 8px;
-`;
-
-const SectionDescription = styled.p`
-  color: #666;
-  font-size: 14px;
-`;
+import {
+  BlueBar,
+  Container,
+  Content,
+  MainTitle,
+  PageContainer,
+  Section,
+  SectionDescription,
+  SectionTitle,
+} from "../../styles/main_styles/CreateMainStyles";
 
 function ProgramMainPage() {
   const sections = [
@@ -79,7 +38,7 @@ function ProgramMainPage() {
         {sections.map((section, index) => (
           <Container key={index}>
             <BlueBar />
-            <Section onClick={() => console.log(`Clicked ${section.title}`)}>
+            <Section>
               <Content>
                 <SectionTitle>{section.title}</SectionTitle>
                 <SectionDescription>{section.description}</SectionDescription>

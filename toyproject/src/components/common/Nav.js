@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -58,13 +57,13 @@ function Navbar() {
   // 로그아웃 이벤트
   const handleLogout = () => {
     sessionStorage.clear();
-    navigate("/login");
+    navigate("/main");
   };
 
   return (
     <NavbarContainer>
       {/* 로고 클릭시 로그인 중이라면 스터디 목록으로 */}
-      <Link to={isLoggedIn ? "/list" : "/main"}>
+      <Link to={isLoggedIn ? "/study-list" : "/main"}>
         <Logo>ToyProject</Logo>
       </Link>
       <NavLinks>
@@ -80,10 +79,10 @@ function Navbar() {
         ) : (
           // 로그인 정보가 없으면
           <>
-            <Link to="/login">
+            <Link to="/login/0">
               <NavButton>로그인</NavButton>
             </Link>
-            <Link to="/signup">
+            <Link to="/signup/0">
               <NavButton color="primary">회원가입</NavButton>
             </Link>
           </>
