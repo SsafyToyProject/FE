@@ -19,6 +19,7 @@ function SessionWait() {
   const [now, setNow] = useState(dayjs()); // 현재 시간 상태
   const [participants, setParticipants] = useState([]); // 참가자 정보
   const [problems, setProblems] = useState([]); // 문제 정보
+  const [timeDiff, setTimeDiff] = useState(-1); // 남은 시간 상태
 
   const user_id = 3; // 임시
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function SessionWait() {
   // 임시로 props 설정
   const props = {
     session_id: 1,
-    start_at: "2024-10-16 22:45:00.0",
+    start_at: "2024-10-18 23:45:00.0",
     end_at: "2024-10-17 04:38:00.0",
     problemCount: 4,
   };
@@ -65,8 +66,9 @@ function SessionWait() {
   // 1초마다 현재 시간 체크
   useInterval(() => {
     setNow(dayjs()); // 현재 시간 갱신
-    const timeDiff = dayjs(props.start_at).diff(now, "s");
-    console.log(timeDiff);
+    const timeDiffInSeconds = dayjs(props.start_at).diff(now, "s"); // 남은 시간 계산
+    setTimeDiff(timeDiffInSeconds); // 남은 시간 상태 업데이트
+
     // 세션 시작 3분 전이면 문제 정보 요청 (임시로 10초 전으로 설정)
     if (timeDiff === 10) {
       fetchInfo();
@@ -79,6 +81,11 @@ function SessionWait() {
       navigate(`/session/${props.session_id}/${user_id}/progress`, { state: problems });
     }
   }, 1000);
+
+  // timeDiff를 시/분/초로 변환
+  const hours = Math.floor(timeDiff / 3600);
+  const minutes = Math.floor((timeDiff % 3600) / 60);
+  const seconds = timeDiff % 60;
 
   return (
     <>
@@ -100,6 +107,9 @@ function SessionWait() {
         <DetailBox>
           <DetailItem>참가자 : {participants.join(", ")}</DetailItem>
           <DetailItem>문제 수: {props.problemCount}개</DetailItem>
+          <DetailItem>
+            남은 시간: {hours}시간 {minutes}분 {seconds}초
+          </DetailItem>
         </DetailBox>
       </Container>
     </>
