@@ -1,4 +1,4 @@
-import CreateStudyList from "../components/study/studylist/CreateStudyList";
+import CreateStudyList from "../components/Study/studylist/CreateStudyList";
 
 function StudyList() {
   return (

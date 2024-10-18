@@ -1,4 +1,4 @@
-import CreateStudyInvite from "../components/study/studyInvite/CreateStudyInvite";
+import CreateStudyInvite from "../components/Study/studyInvite/CreateStudyInvite";
 
 function StudyInvite() {
   return (
