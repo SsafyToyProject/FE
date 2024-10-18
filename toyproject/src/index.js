@@ -4,7 +4,7 @@ import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Live from "./pages/Live";
 import Study from "./pages/Study";
-import CreateStudy from "./components/studymain/CreateStudy";
+import CreateStudy from "./components/Study/CreateStudy";
 import GlobalStyle from "./styles/GlobalStyle";
 import CreateLive from "./components/live/create/CreateLive";
 import Main from "./pages/Main";
