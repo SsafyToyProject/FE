@@ -1,5 +1,6 @@
 import useInput from "../../../hooks/useInput";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import {
   Container,
   InputContainer,
@@ -22,8 +23,19 @@ function CreateLive() {
   const countInput = useInput();
 
   const [difflist, setDiffList] = useState([]);
+  const [queryList, setQueryList] = useState([]);
   const navigate = useNavigate();
   const { qtoggle, setQtoggle } = useContext(queryToggle);
+
+  useEffect(() => {
+    async function fetch() {
+      await axios.get("/crawl/query").then((res) => {
+        console.log(res.data.items);
+        setQueryList(res.data.items);
+      });
+    }
+    fetch();
+  }, [qtoggle]);
 
   const onCountBtnClick = () => {
     const newDiff = [];
@@ -46,13 +58,64 @@ function CreateLive() {
       countInput.value.length === 0
     ) {
       alert("빈 칸을 다 채워주세요!!!");
-      e.preventDefault();
       return false;
     } else {
-      navigate("/live");
+      const formElements = e.target.elements;
+      // 시작날짜 및 시간 파싱
+      const startstamp = formatDateToTimestamp(startDateInput.value, startTimeInput.value);
+
+      // 종료날짜 및 시간 파싱
+      const endstamp = formatDateToTimestamp(endDateInput.value, endTimeInput.value);
+
+      // query id 가져오기
+      const queryId = formElements.query.value;
+
+      // 난이도 problemPool 만들기
+      let problemPool = "";
+      formElements.difficulties.forEach((item, idx) => {
+        problemPool += item.value + " ";
+      });
+      console.log(problemPool);
+
+      async function fetch() {
+        try {
+          console.log(queryId);
+          console.log(startstamp);
+          console.log(endstamp);
+          console.log(problemPool);
+          const response = await axios.post("/session/register", {
+            study_id: 1,
+            query_id: queryId,
+            start_at: startstamp,
+            end_at: endstamp,
+            problemPool: problemPool,
+          });
+          console.log("세션등록 성공: " + response);
+          // 성공 후 페이지 이동을 원하면 navigate 호출
+          navigate("/live");
+        } catch (e) {
+          console.log("세션등록 실패: " + e);
+        }
+      }
+
+      fetch();
     }
+    e.preventDefault();
   };
 
+  const formatDateToTimestamp = (date, time) => {
+    const dateTimeString = `${date}T${time}`;
+    const dateObj = new Date(dateTimeString);
+
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const hours = String(dateObj.getHours()).padStart(2, "0");
+    const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+    const seconds = String(dateObj.getSeconds()).padStart(2, "0");
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
   return (
     <>
       {!qtoggle ? (
@@ -74,10 +137,12 @@ function CreateLive() {
           {/* 기존 쿼리 선택 */}
           <InputContainer>
             <Label>쿼리 선택하기</Label>
-            {/* <수정필요> 여기 옵션으로 DB에서 쿼리 리스트를 가져와야 함 */}
             <Select name="query" id="query">
-              <option value="queryId1">삼성코테 기출</option>
-              <option value="queryId2">커스텀 쿼리 1</option>
+              {queryList.map((item, idx) => (
+                <option key={idx} value={item.query_id}>
+                  {item.title}
+                </option>
+              ))}
             </Select>
             {/* 여기서 쿼리 만드는 페이지로 이동. makeQuery.js */}
             <Button type="button" onClick={onMakeQueryClick}>
@@ -101,11 +166,11 @@ function CreateLive() {
               <DifficultyList>
                 {difflist.map((input) => (
                   <DifficultyItem key={input.id}>
-                    <Select name={input.name}>
-                      <option value="1">S4</option>
-                      <option value="2">S3</option>
-                      <option value="3">S2</option>
-                      <option value="4">S1</option>
+                    <Select name="difficulties">
+                      <option value="S4">S4</option>
+                      <option value="S3">S3</option>
+                      <option value="S2">S2</option>
+                      <option value="S1">S1</option>
                     </Select>
                   </DifficultyItem>
                 ))}

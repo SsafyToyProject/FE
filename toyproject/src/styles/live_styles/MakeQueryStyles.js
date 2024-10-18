@@ -104,6 +104,27 @@ export const CustomInput = styled(StyledInput)`
   }
 `;
 
+export const RangeInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 70%;
+  padding: 0 0 10px;
+`;
+
+export const RangeInput = styled.input`
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+export const InputLabel = styled.span`
+  margin-left: 8px;
+  font-size: 14px;
+  color: #666;
+`;
+
 export const Button = styled.button`
   padding: 10px 15px;
   background-color: #6200ea;
