@@ -8,10 +8,11 @@ import CreateStudy from "./components/Study/CreateStudy";
 import GlobalStyle from "./styles/GlobalStyle";
 import CreateLive from "./components/live/create/CreateLive";
 import Main from "./pages/Main";
-import List from "./pages/List";
+import StudyList from "./pages/StudyList";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Session from "./pages/Session";
+import StudyInvite from "./pages/StudyInvite";
 import SessionWait from "./components/live/session/SessionWait";
 import SessionProgress from "./components/live/session/SessionProgress";
 
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/study",
+    path: "/study/:study_id",
     element: <Study />,
   },
   {
@@ -43,15 +44,19 @@ const router = createBrowserRouter([
     element: <Main />,
   },
   {
-    path: "/list",
-    element: <List />,
+    path: "/study-list",
+    element: <StudyList />,
   },
   {
-    path: "/login",
+    path: "/study-invite/:code",
+    element: <StudyInvite />,
+  },
+  {
+    path: "/login/:code",
     element: <Login />,
   },
   {
-    path: "/signup",
+    path: "/signup/:code",
     element: <Signup />,
   },
   {
