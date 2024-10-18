@@ -20,7 +20,7 @@ function App() {
       <br />
       <Link to={`/signup/${code}`}>Signup</Link>
       <br />
-      <Link to="/study/0">study</Link>
+      <Link to="/study">study</Link>
       <br />
       <Link to="/create-study">create-study</Link>
       <br />
