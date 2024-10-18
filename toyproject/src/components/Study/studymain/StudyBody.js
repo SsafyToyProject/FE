@@ -51,7 +51,13 @@ function StudyBody() {
   // 참가일 때, 호출이랑 입장하기일 때, 라우팅하는 메소드 선언해서
   // 각 버튼 onClickEvent로 넣어주고 조건문대로 const joinSession 상태대로
 
-  useEffect(() => getSessions(), []);
+  useEffect(() => {
+    try {
+      getSessions();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <StudyBodyDiv>
