@@ -34,10 +34,12 @@ import axios from "axios";
 function SessionProgress() {
   const [userList, setUserList] = useState([]);
   const [problemList, setProblemList] = useState([]);
+  const [minute, setMinute] = useState();
+  const [seconds, setSeconds] = useState();
   const { session_id } = useParams();
 
   const dummydata = {
-    end_at: "2024-10-17 04:38:00.0",
+    end_at: "2024-10-20 18:38:00.0",
     problem_pool: "S4 S4 S4 S4 ",
     query_id: 1,
     session_problems: [
@@ -94,12 +96,42 @@ function SessionProgress() {
     setUserList(userlist);
   }, [problemList]);
 
+  function parseDateString(dateString) {
+    // 문자열의 공백을 T로 변환하여 ISO 8601 형식으로 만듦
+    const isoString = dateString.replace(" ", "T");
+
+    // Date 객체로 변환
+    return new Date(isoString);
+  }
+  // 타이머 업데이트 함수
+  function updateTimer() {
+    const currentTime = new Date();
+    const endtime = parseDateString(dummydata.end_at);
+    const timeDifference = endtime - currentTime;
+
+    // 남은 시간이 0보다 작은 경우 타이머 종료
+    if (timeDifference <= 0) {
+      clearInterval(timerInterval);
+      console.log("Time is up!");
+      return;
+    }
+
+    // 남은 시간을 분 단위로 변환
+    setMinute(Math.floor(timeDifference / (1000 * 60)));
+    setSeconds(Math.floor((timeDifference % (1000 * 60)) / 1000));
+  }
+
+  // 1초마다 updateTimer 실행
+  const timerInterval = setInterval(updateTimer, 1000);
+
   return (
     <>
       <StyledTable>
         <thead>
           <tr>
-            <TimeDisplay>00:00</TimeDisplay>
+            <TimeDisplay>
+              {minute}:{seconds}
+            </TimeDisplay>
             {problemList.map((item, idx) => (
               <TableHeader key={idx}>
                 <HeaderCell>{item.problem_id}</HeaderCell>
