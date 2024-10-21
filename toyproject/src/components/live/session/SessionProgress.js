@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProgressUserDetail from "./ProgressUserDetail";
 import {
@@ -36,10 +36,12 @@ function SessionProgress() {
   const [problemList, setProblemList] = useState([]);
   const [minute, setMinute] = useState();
   const [seconds, setSeconds] = useState();
+  const [update, setUpdate] = useState(false);
+  const prevMinute = useRef(0);
   const { session_id } = useParams();
 
   const dummydata = {
-    end_at: "2024-10-20 18:38:00.0",
+    end_at: "2024-10-21 21:38:00.0",
     problem_pool: "S4 S4 S4 S4 ",
     query_id: 1,
     session_problems: [
@@ -65,24 +67,24 @@ function SessionProgress() {
 
   // 문제 세팅 => 지금은 임의의 문제인데,문제 리스트 가져와서 세팅
   // 추가로 problem_id에 따라서 조회를 하고 세팅해줘야 할듯?
-  useEffect(() => {
-    async function fetch() {
-      const problemlist = [];
-      for (let i = 0; i < dummydata.session_problems.length; i++) {
-        const response = await axios.get(
-          `/crawl/problem/${dummydata.session_problems[i].problem_id}`
-        );
+  async function fetch() {
+    const problemlist = [];
+    for (let i = 0; i < dummydata.session_problems.length; i++) {
+      const response = await axios.get(
+        `/crawl/problem/${dummydata.session_problems[i].problem_id}`
+      );
 
-        problemlist.push({
-          problem_id: dummydata.session_problems[i].problem_id,
-          title: response.data.title,
-        });
-      }
-      setProblemList(problemlist);
+      problemlist.push({
+        problem_id: dummydata.session_problems[i].problem_id,
+        title: response.data.title,
+      });
     }
+    setProblemList(problemlist);
+  }
 
+  useEffect(() => {
     fetch();
-  }, [session_id]);
+  }, []);
 
   useEffect(() => {
     const userlist = [];
@@ -103,26 +105,38 @@ function SessionProgress() {
     // Date 객체로 변환
     return new Date(isoString);
   }
-  // 타이머 업데이트 함수
-  function updateTimer() {
-    const currentTime = new Date();
-    const endtime = parseDateString(dummydata.end_at);
-    const timeDifference = endtime - currentTime;
 
-    // 남은 시간이 0보다 작은 경우 타이머 종료
-    if (timeDifference <= 0) {
-      clearInterval(timerInterval);
-      console.log("Time is up!");
-      return;
+  useEffect(() => {
+    // 타이머 업데이트 함수
+    function updateTimer() {
+      const currentTime = new Date();
+      const endtime = parseDateString(dummydata.end_at);
+      const timeDifference = endtime - currentTime;
+
+      // 남은 시간이 0보다 작은 경우 타이머 종료
+      if (timeDifference <= 0) {
+        clearInterval(timerInterval);
+        console.log("Time is up!");
+        return;
+      }
+
+      // 남은 시간을 분 단위로 변환
+      const min = Math.floor(timeDifference / (1000 * 60));
+      const second = Math.floor((timeDifference % (1000 * 60)) / 1000);
+      setMinute(min);
+      setSeconds(second);
+
+      if (prevMinute.current !== min) {
+        console.log(prevMinute.current + " " + min + " " + update);
+        prevMinute.current = min;
+        setUpdate((prevUpdate) => !prevUpdate);
+      }
     }
+    const timerInterval = setInterval(updateTimer, 1000);
 
-    // 남은 시간을 분 단위로 변환
-    setMinute(Math.floor(timeDifference / (1000 * 60)));
-    setSeconds(Math.floor((timeDifference % (1000 * 60)) / 1000));
-  }
-
-  // 1초마다 updateTimer 실행
-  const timerInterval = setInterval(updateTimer, 1000);
+    // 컴포넌트가 언마운트될 때 setInterval을 정리
+    return () => clearInterval(timerInterval);
+  }, []); // 빈 배열을 넣어서 한 번만 실행되게 함
 
   return (
     <>
@@ -151,6 +165,7 @@ function SessionProgress() {
                     session_id={item.session_id}
                     problem_id={detail.problem_id}
                     index={didx}
+                    update={update}
                   />
                 </TableCell>
               ))}

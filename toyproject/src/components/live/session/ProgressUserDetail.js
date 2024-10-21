@@ -42,6 +42,7 @@ export default function ProgressUserDetail({
   session_id,
   problem_id,
   index,
+  update,
 }) {
   const [data, setData] = useState({
     num_elements: 0,
@@ -56,22 +57,24 @@ export default function ProgressUserDetail({
     ],
   });
 
+  async function fetch() {
+    try {
+      const response = await axios.get(
+        `/tracker/info/${session_id}/${user_id}/${problem_id}`
+      );
+      //console.log(response.data);
+      setData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     // 이제 이 fetch가 1분에 한번씩 호출되는 로직 추가해야함.
-    async function fetch() {
-      try {
-        const response = await axios.get(
-          `/tracker/info/${session_id}/${user_id}/${problem_id}`
-        );
-        //console.log(response.data);
-        setData(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
 
     fetch();
-  }, []);
+    console.log("update");
+  }, [update]);
 
   return (
     <>
