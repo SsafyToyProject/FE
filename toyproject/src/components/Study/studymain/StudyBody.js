@@ -22,7 +22,7 @@ function StudyBody() {
 
   // 세션 만들기 페이지로 이동
   const goToCreateLiveSession = () => {
-    navigate("/live/session");
+    navigate(`/live/session/${studyInfo.study_id}`);
   };
 
   // 세션 입장하기 페이지로 이동
@@ -68,7 +68,6 @@ function StudyBody() {
 
   // 진행 중인 세션 필터링
   const ongoingSessions = sessions.filter((session) => dayjs(session.end_at).isAfter(currentTime));
-
 
   // 종료된 세션 필터링
   const pastSessions = sessions.filter((session) => dayjs(session.end_at).isBefore(currentTime));

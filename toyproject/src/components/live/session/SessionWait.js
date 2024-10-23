@@ -24,15 +24,17 @@ function SessionWait() {
   const user_id = 3; // 임시
   const navigate = useNavigate();
   const location = useLocation();
-  // const props = location.state;
+  const props = location.state;
+
+  // console.log(props);
 
   // 임시로 props 설정
-  const props = {
-    session_id: 1,
-    start_at: "2024-10-22 16:49:00.0",
-    end_at: "2024-10-17 04:38:00.0",
-    problemCount: 4,
-  };
+  // const props = {
+  //   session_id: 1,
+  //   start_at: "2024-10-22 16:49:00.0",
+  //   end_at: "2024-10-17 04:38:00.0",
+  //   problemCount: 4,
+  // };
 
   // 제한 시간 구하기
   const timeLimit = dayjs(props.end_at).diff(props.start_at, "m");
@@ -64,8 +66,9 @@ function SessionWait() {
     setTimeDiff(timeDiffInSeconds); // 남은 시간 상태 업데이트
 
     // 세션 시작 3분 전이면 문제 정보 요청 (임시로 10초 전으로 설정)
-    if (timeDiff === 10) {
+    if (timeDiff === 120) {
       fetchInfo();
+      console.log(sessionInfo);
     }
 
     // 세션 시작 시간이 되면 progress 화면으로 이동

@@ -11,7 +11,7 @@ import {
   DifficultyItem,
   CustomInput,
 } from "../../../styles/live_styles/CreateLiveStyles";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { queryToggle } from "../../../pages/Live";
 import MakeQuery from "../create/MakeQuery";
 
@@ -26,6 +26,7 @@ function CreateLive() {
   const [queryList, setQueryList] = useState([]);
   const navigate = useNavigate();
   const { qtoggle, setQtoggle } = useContext(queryToggle);
+  const { study_id } = useParams();
 
   useEffect(() => {
     async function fetch() {
@@ -84,15 +85,17 @@ function CreateLive() {
           console.log(endstamp);
           console.log(problemPool);
           const response = await axios.post("/session/register", {
-            study_id: 1,
+            study_id: study_id,
             query_id: queryId,
             start_at: startstamp,
             end_at: endstamp,
             problemPool: problemPool,
           });
-          console.log("세션등록 성공: " + response);
+          console.log(response);
           // 성공 후 페이지 이동을 원하면 navigate 호출
-          navigate("/live");
+          navigate(`/study/${study_id}`, {
+            replace: true,
+          });
         } catch (e) {
           console.log("세션등록 실패: " + e);
         }
