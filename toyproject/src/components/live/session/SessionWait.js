@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import useInterval from "../../../hooks/useInterval";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -19,22 +19,12 @@ function SessionWait() {
   const [now, setNow] = useState(dayjs()); // 현재 시간 상태
   const [participants, setParticipants] = useState([]); // 참가자 정보
   const [sessionInfo, setSessionInfo] = useState([]); // 세션 정보
-  const [timeDiff, setTimeDiff] = useState(-1); // 남은 시간 상태
+  const [timeDiff, setTimeDiff] = useState(); // 남은 시간 상태
+  const { session_id, user_id } = useParams();
 
-  const user_id = 3; // 임시
   const navigate = useNavigate();
   const location = useLocation();
   const props = location.state;
-
-  // console.log(props);
-
-  // 임시로 props 설정
-  // const props = {
-  //   session_id: 1,
-  //   start_at: "2024-10-22 16:49:00.0",
-  //   end_at: "2024-10-17 04:38:00.0",
-  //   problemCount: 4,
-  // };
 
   // 제한 시간 구하기
   const timeLimit = dayjs(props.end_at).diff(props.start_at, "m");
@@ -53,11 +43,17 @@ function SessionWait() {
       setSessionInfo(response.data);
 
       // 참가자 정보 저장하기
-      setParticipants(response.data.session_participants);
+      setParticipants(
+        response.data.session_participants.map((current) => current.user_id)
+      );
     } catch (error) {
       alert("세션 정보를 불러오는 중 에러 발생");
     }
   };
+
+  useEffect(() => {
+    fetchInfo();
+  }, []);
 
   // 1초마다 현재 시간 체크
   useInterval(() => {
@@ -72,11 +68,12 @@ function SessionWait() {
     }
 
     // 세션 시작 시간이 되면 progress 화면으로 이동
-    if (timeDiff === 0) {
-      fetchInfo();
+    if (timeDiff <= 0) {
       console.log(sessionInfo);
       alert("시작합니다~");
-      navigate(`/session/${props.session_id}/${user_id}/progress`, { state: sessionInfo });
+      navigate(`/session/${props.session_id}/${user_id}/progress`, {
+        state: sessionInfo,
+      });
     }
   }, 1000);
 

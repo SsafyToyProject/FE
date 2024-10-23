@@ -50,6 +50,10 @@ function CreateLive() {
     setQtoggle(true);
   };
 
+  const onCancel = () => {
+    navigate(-1);
+  };
+
   const onSubmit = (e) => {
     if (
       startDateInput.value.length === 0 ||
@@ -63,10 +67,16 @@ function CreateLive() {
     } else {
       const formElements = e.target.elements;
       // 시작날짜 및 시간 파싱
-      const startstamp = formatDateToTimestamp(startDateInput.value, startTimeInput.value);
+      const startstamp = formatDateToTimestamp(
+        startDateInput.value,
+        startTimeInput.value
+      );
 
       // 종료날짜 및 시간 파싱
-      const endstamp = formatDateToTimestamp(endDateInput.value, endTimeInput.value);
+      const endstamp = formatDateToTimestamp(
+        endDateInput.value,
+        endTimeInput.value
+      );
 
       // query id 가져오기
       const queryId = formElements.query.value;
@@ -184,6 +194,9 @@ function CreateLive() {
           {/* 세션을 생성하면 => DB에 저장하는 요청을 보내고 */}
           {/* 성공하면 스터디 메인 화면으로 이동해야 함. */}
           <Button type="submit">세션 생성하기</Button>
+          <Button type="button" onClick={onCancel}>
+            취소하기
+          </Button>
         </Container>
       ) : (
         <MakeQuery />
