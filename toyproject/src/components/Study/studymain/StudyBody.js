@@ -149,7 +149,7 @@ function StudyBody() {
             pastSessions.map((session) => (
               <HistoryCard
                 key={session.session_id}
-                onClick={() => navigate(`/session/${session.session_id}/${user_id}/progress`)}
+                onClick={() => navigate(`/session/${session.session_id}/${user_id}/progress`, { state: session })}
               >
                 <p>{dayjs(session.start_at).format("YYYY-MM-DD")}</p>
               </HistoryCard>
