@@ -18,7 +18,8 @@ import {
 function SessionWait() {
   const [now, setNow] = useState(dayjs()); // 현재 시간 상태
   const [participants, setParticipants] = useState([]); // 참가자 정보
-  const [problems, setProblems] = useState([]); // 문제 정보
+  const [sessionInfo, setSessionInfo] = useState([]); // 세션 정보
+  const [timeDiff, setTimeDiff] = useState(-1); // 남은 시간 상태
 
   const user_id = 3; // 임시
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function SessionWait() {
   // 임시로 props 설정
   const props = {
     session_id: 1,
-    start_at: "2024-10-16 22:45:00.0",
+    start_at: "2024-10-22 16:49:00.0",
     end_at: "2024-10-17 04:38:00.0",
     problemCount: 4,
   };
@@ -46,27 +47,22 @@ function SessionWait() {
       // 세션 아이디로 문제 id 가져오기
       const response = await axios.get(`/session/${props.session_id}`);
 
-      // 각 문제 아이디별 상세 정보 한 번에 가져오기
-      const problemRequests = response.data.session_problems.map((current) =>
-        axios.get(`/crawl/problem/${current.problem_id}`)
-      );
-
-      // 모든 요청이 완료되면 상태 업데이트
-      const problemResponses = await Promise.all(problemRequests);
-      setProblems(problemResponses.map((res) => res.data));
+      // 세션 정보 저장
+      setSessionInfo(response.data);
 
       // 참가자 정보 저장하기
       setParticipants(response.data.session_participants);
     } catch (error) {
-      alert("문제 정보를 불러오는 중 에러 발생");
+      alert("세션 정보를 불러오는 중 에러 발생");
     }
   };
 
   // 1초마다 현재 시간 체크
   useInterval(() => {
     setNow(dayjs()); // 현재 시간 갱신
-    const timeDiff = dayjs(props.start_at).diff(now, "s");
-    console.log(timeDiff);
+    const timeDiffInSeconds = dayjs(props.start_at).diff(now, "s"); // 남은 시간 계산
+    setTimeDiff(timeDiffInSeconds); // 남은 시간 상태 업데이트
+
     // 세션 시작 3분 전이면 문제 정보 요청 (임시로 10초 전으로 설정)
     if (timeDiff === 10) {
       fetchInfo();
@@ -74,11 +70,16 @@ function SessionWait() {
 
     // 세션 시작 시간이 되면 progress 화면으로 이동
     if (timeDiff === 0) {
-      console.log(problems);
+      console.log(sessionInfo);
       alert("시작합니다~");
-      navigate(`/session/${props.session_id}/${user_id}/progress`, { state: problems });
+      navigate(`/session/${props.session_id}/${user_id}/progress`, { state: sessionInfo });
     }
   }, 1000);
+
+  // timeDiff를 시/분/초로 변환
+  const hours = Math.floor(timeDiff / 3600);
+  const minutes = Math.floor((timeDiff % 3600) / 60);
+  const seconds = timeDiff % 60;
 
   return (
     <>
@@ -100,6 +101,9 @@ function SessionWait() {
         <DetailBox>
           <DetailItem>참가자 : {participants.join(", ")}</DetailItem>
           <DetailItem>문제 수: {props.problemCount}개</DetailItem>
+          <DetailItem>
+            남은 시간: {hours}시간 {minutes}분 {seconds}초
+          </DetailItem>
         </DetailBox>
       </Container>
     </>
