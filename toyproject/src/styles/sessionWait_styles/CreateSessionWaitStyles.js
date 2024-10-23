@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  min-width: 600px;
+  min-width: 700px;
   position: absolute;
   top: 50%;
   left: 50%;
