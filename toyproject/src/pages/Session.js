@@ -27,14 +27,6 @@ function Session() {
 
   return (
     <div>
-      <h1>Session 페이지 입니다~</h1>
-      <span>USER: {userId}</span>
-      <br />
-      <span>sessionID: {sessionId}</span>
-      <br />
-      <Link to="wait">대기화면</Link>
-      <br />
-      <Link to="progress">진행중</Link>
       <IdContext.Provider value={(userId, sessionId)}>
         <Outlet />
       </IdContext.Provider>

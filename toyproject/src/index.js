@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Live from "./pages/Live";
 import Study from "./pages/Study";
@@ -19,14 +18,14 @@ import SessionProgress from "./components/live/session/SessionProgress";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Main />,
   },
   {
     path: "/live",
     element: <Live />,
     children: [
       {
-        path: "session",
+        path: "session/:study_id",
         element: <CreateLive />,
       },
     ],
@@ -38,10 +37,6 @@ const router = createBrowserRouter([
   {
     path: "/create-study",
     element: <CreateStudy />,
-  },
-  {
-    path: "/main",
-    element: <Main />,
   },
   {
     path: "/study-list",
