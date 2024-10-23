@@ -21,37 +21,6 @@ function StudyInfo() {
   const studyInfo = location.state;
   console.log(studyInfo);
 
-  // useEffect(() => {
-  //   // api 호출
-  //   // const res = await axios.get(`http://localhost:8000/study/${studyID}`);
-  //   // 나중에 여기서 라우팅되어 넘어오는 스터디 아이디를 가져올 수 있거든 usePath 뭐시기 제공하는 걸 써서 api 호출할 때 넣는 것이다
-
-  //   // 더미데이터
-  //   const response = {
-  //     study_id: 1,
-  //     owner_id: 1,
-  //     name: "코테 스터디",
-  //     description: "화수 9시-11시 진행",
-  //     code: "adsf9sgsdg8",
-  //     study_member_cnt: 2,
-  //     study_member: [
-  //       {
-  //         user_id: 8,
-  //         github_id: "Kimyebin00",
-  //       },
-  //       {
-  //         user_id: 9,
-  //         github_id: "ejoyee",
-  //       },
-  //     ],
-  //   };
-  //   // 콘솔에 찍어서 호출 잘 동작하는지 확인하기
-  //   // SetStudyInfo(res.data); // 이런 식으로 response를 studyInfo에 넣어주기
-  //   console.log(response);
-  //   SetStudyInfo(response);
-  // }, []); // 빈배열이면 초기 렌더링할 때 useEff- 내부의 코드를 실행하는 것
-  // // 배열 안에 있는 값에 변화가 생길 때마다 useEff-이 동작하는 건데 빈 배열일 때는 초기 렌더링할 때 동작하는 것 <<
-
   return (
     <>
       <StudyInfoDiv>
@@ -59,7 +28,7 @@ function StudyInfo() {
           <h2>{studyInfo?.name}</h2>
           {/* 물음표 한 이유는 없을 때 돌리려고 하면 오류가 날 수 있기 때문에 ?. 이거는 값이 있을 때 값을 들여온다 << 불러오는 시간차로 인한 오류를 해결하기 위해서*/}
           <p>
-            <strong>방장</strong> github_id
+            <strong>방장</strong> {studyInfo?.owner_id}
           </p>
           <p>
             <a href="#">mockcote.com/{studyInfo?.code}</a>
@@ -77,16 +46,22 @@ function StudyInfo() {
 
         <InfoDiv>
           <h2>스터디 멤버</h2>
-          <ul>
+          <StyledUl>
             {studyInfo?.study_member?.map((member) => (
-              <li key={member.user_id}>{member.github_id}</li>
+              <li key={member.user_id}>{member.user_id}</li>
             ))}
-          </ul>
+          </StyledUl>
         </InfoDiv>
       </StudyInfoDiv>
     </>
   );
 }
+
+const StyledUl = styled.ul`
+  list-style: none; /* 기본 리스트 스타일 제거 */
+  padding-left: 0; /* 기본 패딩 제거 */
+  margin: 0; /* 기본 마진 제거 */
+`;
 
 const StudyInfoDiv = styled.div`
   width: 300px;
