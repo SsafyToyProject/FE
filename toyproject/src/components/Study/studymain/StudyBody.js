@@ -76,7 +76,7 @@ function StudyBody() {
   const getSessions = async () => {
     try {
       const response = await axios.get(`/session/study/${studyInfo?.study_id}`);
-      console.log(response.data.sessions);
+      // console.log(response.data.sessions);
       setSessionInfo(response.data.sessions);
     } catch (error) {
       console.error("세선 정보 불러오기 실패", error);
@@ -84,21 +84,32 @@ function StudyBody() {
   };
 
   useEffect(() => {
-    const checkUserJoined = () => {
-      const updatedJoinedSessions = {};
-      if (sessions.length > 0) {
-        sessions.forEach((session) => {
-          if (checkJoin(session)) {
-            updatedJoinedSessions[session.session_id] = true;
-          }
-        });
+    // 세션 정보 받아오기 (컴포넌트가 처음 렌더링될 때 한 번만 실행)
+    const getSessions = async () => {
+      try {
+        const response = await axios.get(`/session/study/${studyInfo?.study_id}`);
+        console.log(response.data.sessions);
+        setSessionInfo(response.data.sessions); // 세션 정보 업데이트 후
+      } catch (error) {
+        console.error("세션 정보 불러오기 실패", error);
       }
-      setJoinedSessions(updatedJoinedSessions); // 참가 여부를 저장
     };
 
-    getSessions();
-    checkUserJoined();
-  }, [sessions]);
+    getSessions(); // 세션 정보 가져오기
+  }, [studyInfo]); // 새로고침 또는 studyInfo가 변경될 때 한 번만 실행
+
+  // 세션 참가 여부 확인 (sessions 상태가 업데이트된 후 실행)
+  useEffect(() => {
+    if (sessions.length > 0) {
+      const updatedJoinedSessions = {};
+      sessions.forEach((session) => {
+        if (checkJoin(session)) {
+          updatedJoinedSessions[session.session_id] = true;
+        }
+      });
+      setJoinedSessions(updatedJoinedSessions); // 참가 여부를 저장
+    }
+  }, [sessions]); // 세션 정보가 업데이트될 때 한 번 실행
 
   return (
     <StudyBodyDiv>
@@ -115,11 +126,11 @@ function StudyBody() {
               <LiveSessionCard key={session.session_id}>
                 <p>
                   <strong>시작: </strong>
-                  {dayjs(session.start_at).format("YYYY-MM-DD hh:mm")}
+                  {dayjs(session.start_at).format("YYYY-MM-DD HH:mm")}
                 </p>
                 <p>
                   <strong>종료: </strong>
-                  {dayjs(session.end_at).format("YYYY-MM-DD hh:mm")}
+                  {dayjs(session.end_at).format("YYYY-MM-DD HH:mm")}
                 </p>
                 <ButtonGroup>
                   {/* 각 세션별로 참가 여부를 joinedSessions에서 확인 */}
@@ -236,7 +247,7 @@ const Hr = styled.hr`
 
 const HistoryGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   /* padding: 10px 10px; */
 `;
