@@ -38,7 +38,7 @@ function SessionProgress() {
   const [seconds, setSeconds] = useState();
   const [update, setUpdate] = useState(false);
   const prevMinute = useRef(0);
-  const { session_id } = useParams();
+  const { session_id, user_id } = useParams();
   const location = useLocation();
   const sessionInfo = location.state;
 
@@ -88,9 +88,9 @@ function SessionProgress() {
 
   useEffect(() => {
     const userlist = [];
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < sessionInfo.participants_cnt; i++) {
       userlist.push({
-        user_id: 1,
+        user_id: user_id,
         session_id: session_id,
         problem: problemList,
       });
