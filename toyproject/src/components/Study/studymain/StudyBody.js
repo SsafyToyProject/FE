@@ -1,63 +1,105 @@
 import { useEffect, useState } from "react";
-import useInput from "../../../hooks/useInput";
-import Input from "../../common/Input";
+import useInterval from "../../../hooks/useInterval";
 import axios from "axios";
+import dayjs from "dayjs";
 
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function StudyBody() {
-  const { value, onChange } = useInput();
+  //const { value, onChange } = useInput();
   const navigate = useNavigate(); // useNavigate hook 사용
 
-  const [sessionInfo, SetSessionInfo] = useState({}); // 세션 정보 목록
-  const [selectedSession, setSelectedSession] = useState(null); // 선택 세션 - 나중에 대기화면으로 넘길 때
-  const [hasJoined, SetHasJoined] = useState(false); // 참가 여부 판단할 변수
+  const [sessions, setSessionInfo] = useState([]); // 세션 정보 목록
+  const [joinedSessions, setJoinedSessions] = useState({}); // 참가한 세션을 저장하는 객체
+  const [currentTime, setCurrentTime] = useState(dayjs()); // 현재 시간
+
+  const userInfo = window.sessionStorage;
+  const user_id = userInfo.getItem("userId");
+
+  const location = useLocation();
+  const studyInfo = location.state;
 
   // 세션 만들기 페이지로 이동
   const goToCreateLiveSession = () => {
-    navigate("/create-study"); // 임시로 스터디 개설 페이지로 연결
+    navigate("/live/session");
   };
+
+  // 세션 입장하기 페이지로 이동
+  const goToLiveSessionPage = (session) => {
+    navigate(`/session/${session.session_id}/${user_id}/wait`, { state: session });
+  };
+
+  // 입장하기 - 참가 (or 참가 불가) 를 구분하기 위한 메소드
+  const checkJoin = (session) => {
+    const participants = session.session_participants;
+    if (Array.isArray(participants)) {
+      return participants.some((participant) => participant.user_id === Number(user_id));
+    }
+    return false;
+  };
+
+  // 참가 버튼
+  const joinSession = async (sessionId) => {
+    try {
+      const response = await axios.post("/session/participate", {
+        user_id: user_id,
+        session_id: sessionId,
+      });
+
+      setJoinedSessions((prev) => ({ ...prev, [sessionId]: true }));
+    } catch (error) {
+      console.error("세션 참가 중 오류 발생:", error);
+      alert("세션 참가 중 오류 발생. 다시 시도해 주세요.");
+    }
+  };
+
+  // useInterval => 현재 시간
+  useInterval(() => {
+    setCurrentTime(dayjs());
+  }, 60 * 1000); // 1분마다 실행
+
+  // 세션 참가 버튼 5분 체크
+  const canJoinSession = (startAt) => {
+    const sessionStartTime = dayjs(startAt);
+    const fiveMinutesBefore = sessionStartTime.subtract(5, "minute");
+    return currentTime.isBefore(fiveMinutesBefore); // 현재 시간이 5분 전보다 이전인지 확인
+  };
+
+  // 진행 중인 세션 필터링
+  const ongoingSessions = sessions.filter((session) => dayjs(session.end_at).isAfter(currentTime));
+
+
+  // 종료된 세션 필터링
+  const pastSessions = sessions.filter((session) => dayjs(session.end_at).isBefore(currentTime));
 
   // 세션 정보 받아오기 get
   const getSessions = async () => {
-    const response = await axios.get(`/session/study/${1}`);
-    console.log(response.data.sessions);
-    SetSessionInfo(response.data.sessions);
-  };
-
-  // 참가 버튼 클릭 시, 동작 메소드
-  const joinSession = async (sessionId) => {
-    // api 호출
-    // url : /session/participate
-    //  request 데이터
-    // {
-    //	"user_id": int,
-    //  "session_id": int,
-    // }
-
     try {
-    } catch (error) {}
-
-    SetHasJoined(true);
+      const response = await axios.get(`/session/study/${studyInfo?.study_id}`);
+      console.log(response.data.sessions);
+      setSessionInfo(response.data.sessions);
+    } catch (error) {
+      console.error("세선 정보 불러오기 실패", error);
+    }
   };
-
-  const goToLiveSessionPage = () => {
-    // 대기 페이지로 라우팅
-    // navigate("/session/", { state:sessionInfo[idx]});
-  };
-
-  // 1016 할 일
-  // 참가일 때, 호출이랑 입장하기일 때, 라우팅하는 메소드 선언해서
-  // 각 버튼 onClickEvent로 넣어주고 조건문대로 const joinSession 상태대로
 
   useEffect(() => {
-    try {
-      getSessions();
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+    const checkUserJoined = () => {
+      const updatedJoinedSessions = {};
+      if (sessions.length > 0) {
+        sessions.forEach((session) => {
+          if (checkJoin(session)) {
+            updatedJoinedSessions[session.session_id] = true;
+          }
+        });
+      }
+      setJoinedSessions(updatedJoinedSessions); // 참가 여부를 저장
+    };
+
+    getSessions();
+    checkUserJoined();
+  }, [sessions]);
 
   return (
     <StudyBodyDiv>
@@ -68,25 +110,34 @@ function StudyBody() {
           <Button onClick={goToCreateLiveSession}>라이브 만들기</Button> {/* 고민 중인 부분 : 라이브 만들기 버튼 위치*/}
         </SectionHeader>
 
-        <LiveSessionCard>
-          {/* <strong>라이브세션제목</strong> */}
-          <p>
-            {/* 고민 중인 부분 : 라이브명에 대한 이야기... */}
-            <strong>시작 : </strong>2024.10.03 21:00
-          </p>
-          <p>
-            <strong>종료: </strong>2024.10.03 22:30
-          </p>
-          <ButtonGroup>
-            {hasJoined ? (
-              <ActionButton onClick={goToLiveSessionPage}>입장하기</ActionButton>
-            ) : (
-              <ActionButton>참가</ActionButton>
-            )}
-
-            {/* 이것도 useState를 써서 버튼을 눌렀냐 안 눌렀냐를 알 수 있잖아 그러면 누른 상태일 때 useEffect 써서 true가 되면 입장하기 hidden을 빼기 */}
-          </ButtonGroup>
-        </LiveSessionCard>
+        <OngoingSessionsWrapper>
+          {ongoingSessions.length > 0 ? (
+            ongoingSessions.map((session) => (
+              <LiveSessionCard key={session.session_id}>
+                <p>
+                  <strong>시작: </strong>
+                  {dayjs(session.start_at).format("YYYY-MM-DD hh:mm")}
+                </p>
+                <p>
+                  <strong>종료: </strong>
+                  {dayjs(session.end_at).format("YYYY-MM-DD hh:mm")}
+                </p>
+                <ButtonGroup>
+                  {/* 각 세션별로 참가 여부를 joinedSessions에서 확인 */}
+                  {joinedSessions[session.session_id] ? (
+                    <ActionButton onClick={() => goToLiveSessionPage(session)}>입장하기</ActionButton>
+                  ) : canJoinSession(session.start_at) ? (
+                    <ActionButton onClick={() => joinSession(session.session_id)}>참가</ActionButton>
+                  ) : (
+                    <ActionButton disabled>참가 불가</ActionButton>
+                  )}
+                </ButtonGroup>
+              </LiveSessionCard>
+            ))
+          ) : (
+            <p>진행 중인 세션이 없습니다.</p>
+          )}
+        </OngoingSessionsWrapper>
       </Section>
 
       <Hr />
@@ -95,17 +146,30 @@ function StudyBody() {
       <Section>
         <h2>히스토리</h2>
         <HistoryGrid>
-          <HistoryCard>
-            {/* <strong>라이브세션제목</strong> */}
-            2024.10.03
-          </HistoryCard>
-          <HistoryCard>2024.10.02</HistoryCard>
-          <HistoryCard>2024.10.01</HistoryCard>
+          {pastSessions.length > 0 ? (
+            pastSessions.map((session) => (
+              <HistoryCard
+                key={session.session_id}
+                onClick={() => navigate(`/session/${session.session_id}/${user_id}/progress`, { state: session })}
+              >
+                <p>{dayjs(session.start_at).format("YYYY-MM-DD")}</p>
+              </HistoryCard>
+            ))
+          ) : (
+            <p>종료된 세션이 없습니다.</p>
+          )}
         </HistoryGrid>
       </Section>
     </StudyBodyDiv>
   );
 }
+
+const OngoingSessionsWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  overflow-x: auto; // 가로 스크롤을 가능하게 설정
+  padding-bottom: 10px;
+`;
 
 const StudyBodyDiv = styled.div`
   flex: 1;
