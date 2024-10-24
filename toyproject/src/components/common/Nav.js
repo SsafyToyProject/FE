@@ -28,7 +28,8 @@ const NavLinks = styled.div`
 `;
 
 const NavButton = styled.button`
-  background-color: ${(props) => (props.color === "primary" ? "#2563eb" : "gray")};
+  background-color: ${(props) =>
+    props.color === "primary" ? "#2563eb" : "gray"};
   color: ${(props) => (props.color === "primary" ? "white" : "white")};
   padding: 10px 20px;
   border: none;
@@ -38,7 +39,8 @@ const NavButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: ${(props) => (props.color === "primary" ? "#1e40af" : "#6b7280")};
+    background-color: ${(props) =>
+      props.color === "primary" ? "#1e40af" : "#6b7280"};
   }
 `;
 
@@ -57,13 +59,13 @@ function Navbar() {
   // 로그아웃 이벤트
   const handleLogout = () => {
     sessionStorage.clear();
-    navigate("/main");
+    navigate("/");
   };
 
   return (
     <NavbarContainer>
       {/* 로고 클릭시 로그인 중이라면 스터디 목록으로 */}
-      <Link to={isLoggedIn ? "/study-list" : "/main"}>
+      <Link to={isLoggedIn ? "/study-list" : "/"}>
         <Logo>ToyProject</Logo>
       </Link>
       <NavLinks>

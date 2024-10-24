@@ -4,21 +4,21 @@ import axios from "axios";
 import dayjs from "dayjs";
 
 import styled from "styled-components";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 
-function StudyBody() {
-  //const { value, onChange } = useInput();
+function StudyBody({ studyInfo }) {
   const navigate = useNavigate(); // useNavigate hook 사용
 
   const [sessions, setSessionInfo] = useState([]); // 세션 정보 목록
   const [joinedSessions, setJoinedSessions] = useState({}); // 참가한 세션을 저장하는 객체
   const [currentTime, setCurrentTime] = useState(dayjs()); // 현재 시간
 
+  const params = useParams();
   const userInfo = window.sessionStorage;
   const user_id = userInfo.getItem("userId");
 
-  const location = useLocation();
-  const studyInfo = location.state;
+  // const location = useLocation();
+  // const studyInfo = location.state;
 
   // 세션 만들기 페이지로 이동
   const goToCreateLiveSession = () => {
@@ -72,22 +72,11 @@ function StudyBody() {
   // 종료된 세션 필터링
   const pastSessions = sessions.filter((session) => dayjs(session.end_at).isBefore(currentTime));
 
-  // 세션 정보 받아오기 get
-  const getSessions = async () => {
-    try {
-      const response = await axios.get(`/session/study/${studyInfo?.study_id}`);
-      // console.log(response.data.sessions);
-      setSessionInfo(response.data.sessions);
-    } catch (error) {
-      console.error("세선 정보 불러오기 실패", error);
-    }
-  };
-
   useEffect(() => {
     // 세션 정보 받아오기 (컴포넌트가 처음 렌더링될 때 한 번만 실행)
     const getSessions = async () => {
       try {
-        const response = await axios.get(`/session/study/${studyInfo?.study_id}`);
+        const response = await axios.get(`/session/study/${params.study_id}`);
         console.log(response.data.sessions);
         setSessionInfo(response.data.sessions); // 세션 정보 업데이트 후
       } catch (error) {

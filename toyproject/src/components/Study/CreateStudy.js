@@ -10,17 +10,27 @@ function CreateStudy() {
   const studyName = useInput();
   const description = useInput();
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // 폼 제출 시 처리 로직
     console.log("Study Created:", studyName.value, description.value);
     const session = window.sessionStorage;
-    // 실패 성공 처리 >> 성공 시, 가입한 스터디 목록 main / 실패 시, 경고문
-    const response = await axios.post("/study/register", {
-      owner_id: session.getItem("userId"),
-      name: studyName.value,
-      description: description.value,
-    });
+
+    try {
+      const response = await axios.post("/study/register", {
+        owner_id: session.getItem("userId"),
+        name: studyName.value,
+        description: description.value,
+      });
+
+      alert("스터디가 성공적으로 생성되었습니다.");
+
+      // 스터디 생성 후, study-list 페이지로 이동
+      navigate("/study-list");
+    } catch (error) {
+      alert("스터디 생성 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
   };
 
   return (
