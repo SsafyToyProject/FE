@@ -72,9 +72,7 @@ function SessionProgress() {
   async function fetch() {
     const problemlist = [];
     for (let i = 0; i < sessionInfo.session_problems.length; i++) {
-      const response = await axios.get(
-        `/crawl/problem/${sessionInfo.session_problems[i].problem_id}`
-      );
+      const response = await axios.get(`/crawl/problem/${sessionInfo.session_problems[i].problem_id}`);
 
       problemlist.push({
         problem_id: sessionInfo.session_problems[i].problem_id,
@@ -97,16 +95,14 @@ function SessionProgress() {
   useEffect(() => {
     const userlist = [];
     for (let i = 0; i < sessionInfo.session_participants.length; i++) {
-      fetchHandel(sessionInfo.session_participants[i].user_id).then(
-        (handle) => {
-          userlist.push({
-            handle: handle,
-            user_id: sessionInfo.session_participants[i].user_id,
-            session_id: session_id,
-            problem: problemList,
-          });
-        }
-      );
+      fetchHandel(sessionInfo.session_participants[i].user_id).then((handle) => {
+        userlist.push({
+          handle: handle,
+          user_id: sessionInfo.session_participants[i].user_id,
+          session_id: session_id,
+          problem: problemList,
+        });
+      });
     }
     setUserList(userlist);
   }, [problemList]);

@@ -67,16 +67,10 @@ function CreateLive() {
     } else {
       const formElements = e.target.elements;
       // 시작날짜 및 시간 파싱
-      const startstamp = formatDateToTimestamp(
-        startDateInput.value,
-        startTimeInput.value
-      );
+      const startstamp = formatDateToTimestamp(startDateInput.value, startTimeInput.value);
 
       // 종료날짜 및 시간 파싱
-      const endstamp = formatDateToTimestamp(
-        endDateInput.value,
-        endTimeInput.value
-      );
+      const endstamp = formatDateToTimestamp(endDateInput.value, endTimeInput.value);
 
       // query id 가져오기
       const queryId = formElements.query.value;
@@ -180,10 +174,22 @@ function CreateLive() {
                 {difflist.map((input) => (
                   <DifficultyItem key={input.id}>
                     <Select name="difficulties">
+                      <option value="B4">B4</option>
+                      <option value="B3">B3</option>
+                      <option value="B2">B2</option>
+                      <option value="B1">B1</option>
                       <option value="S4">S4</option>
                       <option value="S3">S3</option>
                       <option value="S2">S2</option>
                       <option value="S1">S1</option>
+                      <option value="G4">G4</option>
+                      <option value="G3">G3</option>
+                      <option value="G2">G2</option>
+                      <option value="G1">G1</option>
+                      <option value="P4">P4</option>
+                      <option value="P3">P3</option>
+                      <option value="P2">P2</option>
+                      <option value="P1">P1</option>
                     </Select>
                   </DifficultyItem>
                 ))}

@@ -43,9 +43,7 @@ function SessionWait() {
       setSessionInfo(response.data);
 
       // 참가자 정보 저장하기
-      setParticipants(
-        response.data.session_participants.map((current) => current.user_id)
-      );
+      setParticipants(response.data.session_participants.map((current) => current.user_id));
     } catch (error) {
       alert("세션 정보를 불러오는 중 에러 발생");
     }
@@ -62,7 +60,7 @@ function SessionWait() {
     setTimeDiff(timeDiffInSeconds); // 남은 시간 상태 업데이트
 
     // 세션 시작 3분 전이면 문제 정보 요청 (임시로 10초 전으로 설정)
-    if (timeDiff === 60) {
+    if (timeDiff === 120) {
       fetchInfo();
       console.log(sessionInfo);
     }
@@ -73,6 +71,7 @@ function SessionWait() {
       alert("시작합니다~");
       navigate(`/session/${props.session_id}/${user_id}/progress`, {
         state: sessionInfo,
+        replace: true,
       });
     }
   }, 1000);
