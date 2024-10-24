@@ -43,7 +43,7 @@ function SessionWait() {
       setSessionInfo(response.data);
 
       // 참가자 정보 저장하기
-      setParticipants(response.data.session_participants.map((current) => current.user_id));
+      setParticipants(response.data.session_participants.map((current) => current.handle));
     } catch (error) {
       alert("세션 정보를 불러오는 중 에러 발생");
     }
@@ -100,7 +100,7 @@ function SessionWait() {
         </InfoBox>
         <DetailBox>
           <DetailItem>참가자 : {participants.join(", ")}</DetailItem>
-          <DetailItem>문제 수: {props.problemCount}개</DetailItem>
+          {/* <DetailItem>문제 수: {props.problemCount}개</DetailItem> */}
           <DetailItem>
             남은 시간: {hours}시간 {minutes}분 {seconds}초
           </DetailItem>

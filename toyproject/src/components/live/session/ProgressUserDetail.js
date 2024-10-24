@@ -37,13 +37,7 @@ const InfoText = styled.span`
   color: #555;
 `;
 
-export default function ProgressUserDetail({
-  user_id,
-  session_id,
-  problem_id,
-  index,
-  update,
-}) {
+export default function ProgressUserDetail({ user_id, session_id, problem_id, index, update }) {
   const [data, setData] = useState({
     num_elements: 0,
     trackers: [
@@ -59,9 +53,7 @@ export default function ProgressUserDetail({
 
   async function fetch() {
     try {
-      const response = await axios.get(
-        `/tracker/info/${session_id}/${user_id}/${problem_id}`
-      );
+      const response = await axios.get(`/tracker/info/${session_id}/${user_id}/${problem_id}`);
       //console.log(response.data);
       setData(response.data);
     } catch (error) {
@@ -79,11 +71,9 @@ export default function ProgressUserDetail({
   return (
     <>
       <TableCellWrapper key={index}>
-        <StatusText>
-          {data.trackers[0].solved_at != null ? "SUCCESS!!" : "FAILED.."}
-        </StatusText>
-        <InfoText>사용 언어: {data.trackers[0].language}</InfoText>
-        <InfoText>실행 시간: {data.trackers[0].performance}ms</InfoText>
+        <StatusText>{data.trackers[0].solved_at != null ? "SUCCESS!!" : "FAILED.."}</StatusText>
+        {data.trackers[0].solved_at != null ? <InfoText>사용 언어: {data.trackers[0].language}</InfoText> : null}
+        {data.trackers[0].solved_at != null ? <InfoText>실행 시간: {data.trackers[0].performance}ms</InfoText> : null}
       </TableCellWrapper>
     </>
   );
