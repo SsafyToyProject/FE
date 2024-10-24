@@ -17,7 +17,7 @@ function Study() {
     const fetchStudyInfo = async () => {
       try {
         console.log("study_id 출력 : " + study_id);
-        const res = await axios.get(`/study/${study_id}`);
+        const res = await axios.get(`/api/study/${study_id}`);
         setStudyInfo(res.data);
       } catch (error) {
         console.error("스터디 정보를 불러오는 중 에러 발생: ", error);

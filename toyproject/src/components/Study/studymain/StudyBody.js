@@ -42,7 +42,7 @@ function StudyBody({ studyInfo }) {
   // 참가 버튼
   const joinSession = async (sessionId) => {
     try {
-      const response = await axios.post("/session/participate", {
+      const response = await axios.post("/api/session/participate", {
         user_id: user_id,
         session_id: sessionId,
       });
@@ -76,7 +76,7 @@ function StudyBody({ studyInfo }) {
     // 세션 정보 받아오기 (컴포넌트가 처음 렌더링될 때 한 번만 실행)
     const getSessions = async () => {
       try {
-        const response = await axios.get(`/session/study/${params.study_id}`);
+        const response = await axios.get(`/api/session/study/${params.study_id}`);
         console.log(response.data.sessions);
         setSessionInfo(response.data.sessions); // 세션 정보 업데이트 후
       } catch (error) {

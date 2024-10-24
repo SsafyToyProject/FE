@@ -18,7 +18,7 @@ function CreateStudy() {
     const session = window.sessionStorage;
 
     try {
-      const response = await axios.post("/study/register", {
+      const response = await axios.post("/api/study/register", {
         owner_id: session.getItem("userId"),
         name: studyName.value,
         description: description.value,

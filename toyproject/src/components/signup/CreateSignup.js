@@ -29,7 +29,7 @@ function Signup() {
 
     // 회원가입 POST 요청 (파라미터: handle, password, level)
     try {
-      const response = await axios.post("/user/signup", {
+      const response = await axios.post("/api/user/signup", {
         handle: idInput.value,
         password: passwordInput.value,
         level: 1,
