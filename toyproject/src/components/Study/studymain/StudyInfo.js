@@ -23,7 +23,7 @@ function StudyInfo({ studyInfo }) {
             <strong>방장</strong> {studyInfo?.owner_handle}
           </p>
           <p>
-            <a href="#">34.64.207.180/study-invite/{studyInfo?.code}</a>
+            <span>34.64.207.180/study-invite/{studyInfo?.code}</span>
           </p>
         </InfoDiv>
 
