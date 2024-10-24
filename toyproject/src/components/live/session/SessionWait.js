@@ -51,7 +51,6 @@ function SessionWait() {
 
   useEffect(() => {
     fetchInfo();
-    console.log(props);
   }, []);
 
   // 1초마다 현재 시간 체크
@@ -61,7 +60,7 @@ function SessionWait() {
     setTimeDiff(timeDiffInSeconds); // 남은 시간 상태 업데이트
 
     // 세션 시작 3분 전이면 문제 정보 요청 (임시로 10초 전으로 설정)
-    if (timeDiff === 60) {
+    if (timeDiff === 120) {
       fetchInfo();
       console.log(sessionInfo);
     }
@@ -70,7 +69,10 @@ function SessionWait() {
     if (timeDiff <= 0) {
       console.log(sessionInfo);
       alert("시작합니다~");
-      navigate(`/session/${props.session_id}/${user_id}/progress`, { state: sessionInfo });
+      navigate(`/session/${props.session_id}/${user_id}/progress`, {
+        state: sessionInfo,
+        replace: true,
+      });
     }
   }, 1000);
 
