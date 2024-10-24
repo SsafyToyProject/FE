@@ -86,13 +86,22 @@ function SessionProgress() {
     fetch();
   }, []);
 
+  async function fetchHandel(user_id) {
+    const response = await axios.get(`/user/${user_id}`);
+
+    return response.data.handle;
+  }
+
   useEffect(() => {
     const userlist = [];
-    for (let i = 0; i < sessionInfo.participants_cnt; i++) {
-      userlist.push({
-        user_id: user_id,
-        session_id: session_id,
-        problem: problemList,
+    for (let i = 0; i < sessionInfo.session_participants.length; i++) {
+      fetchHandel(sessionInfo.session_participants[i].user_id).then((handle) => {
+        userlist.push({
+          handle: handle,
+          user_id: sessionInfo.session_participants[i].user_id,
+          session_id: session_id,
+          problem: problemList,
+        });
       });
     }
     setUserList(userlist);
@@ -157,7 +166,7 @@ function SessionProgress() {
         <tbody>
           {userList.map((item, iidx) => (
             <tr key={iidx}>
-              <TableCell>user: {item.user_id}</TableCell>
+              <TableCell>user: {item.handle}</TableCell>
               {item.problem.map((detail, didx) => (
                 <TableCell key={didx}>
                   <ProgressUserDetail

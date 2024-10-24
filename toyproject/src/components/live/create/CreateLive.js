@@ -50,6 +50,10 @@ function CreateLive() {
     setQtoggle(true);
   };
 
+  const onCancel = () => {
+    navigate(-1);
+  };
+
   const onSubmit = (e) => {
     if (
       startDateInput.value.length === 0 ||
@@ -170,10 +174,22 @@ function CreateLive() {
                 {difflist.map((input) => (
                   <DifficultyItem key={input.id}>
                     <Select name="difficulties">
+                      <option value="B4">B4</option>
+                      <option value="B3">B3</option>
+                      <option value="B2">B2</option>
+                      <option value="B1">B1</option>
                       <option value="S4">S4</option>
                       <option value="S3">S3</option>
                       <option value="S2">S2</option>
                       <option value="S1">S1</option>
+                      <option value="G4">G4</option>
+                      <option value="G3">G3</option>
+                      <option value="G2">G2</option>
+                      <option value="G1">G1</option>
+                      <option value="P4">P4</option>
+                      <option value="P3">P3</option>
+                      <option value="P2">P2</option>
+                      <option value="P1">P1</option>
                     </Select>
                   </DifficultyItem>
                 ))}
@@ -184,6 +200,9 @@ function CreateLive() {
           {/* 세션을 생성하면 => DB에 저장하는 요청을 보내고 */}
           {/* 성공하면 스터디 메인 화면으로 이동해야 함. */}
           <Button type="submit">세션 생성하기</Button>
+          <Button type="button" onClick={onCancel}>
+            취소하기
+          </Button>
         </Container>
       ) : (
         <MakeQuery />
