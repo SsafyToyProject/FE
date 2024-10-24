@@ -157,7 +157,9 @@ function SessionProgress() {
             </TimeDisplay>
             {problemList.map((item, idx) => (
               <TableHeader key={idx}>
-                <HeaderCell>{item.problem_id}</HeaderCell>
+                <a href={`https://www.acmicpc.net/problem/${item.problem_id}`} target="_blank">
+                  {item.problem_id}
+                </a>
                 <HeaderCell>{item.title}</HeaderCell>
               </TableHeader>
             ))}
