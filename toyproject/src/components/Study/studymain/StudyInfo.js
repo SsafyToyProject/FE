@@ -2,24 +2,16 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Input from "../../common/Input";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 // 기본적으로 사용하는 api 호출 함수가 fetch랑 axios가 있는데
 // 이유는 까먹었고 그치만 axios가 기능적응로 더 좋은 걸로 알고 있음
 // axios api 연동 검색해보기
 
-function StudyInfo() {
+function StudyInfo({ studyInfo }) {
   // 구조 분해 할당
-  //const [studyInfo, SetStudyInfo] = useState({});
-  // studyInfo: response 값을 넣을 변수
-  // 초기 studyInfo: {} <- useState 인자값
-
-  // SetStudyInfo: studyInfo의 상태를 변경하는 함수
-  // SetStudyInfo({study_id: 1}); -> studyInfo: {study_id: 1}
-
-  const location = useLocation();
-
-  const studyInfo = location.state;
-  console.log(studyInfo);
+  // const location = useLocation();
+  // const studyInfo = location.state;
+  // console.log(studyInfo);
 
   return (
     <>
@@ -28,7 +20,7 @@ function StudyInfo() {
           <h2>{studyInfo?.name}</h2>
           {/* 물음표 한 이유는 없을 때 돌리려고 하면 오류가 날 수 있기 때문에 ?. 이거는 값이 있을 때 값을 들여온다 << 불러오는 시간차로 인한 오류를 해결하기 위해서*/}
           <p>
-            <strong>방장</strong> {studyInfo?.owner_id}
+            <strong>방장</strong> {studyInfo?.owner_handle}
           </p>
           <p>
             <a href="#">mockcote.com/{studyInfo?.code}</a>
@@ -48,7 +40,7 @@ function StudyInfo() {
           <h2>스터디 멤버</h2>
           <StyledUl>
             {studyInfo?.study_member?.map((member) => (
-              <li key={member.user_id}>{member.user_id}</li>
+              <li key={member.user_id}>{member.handle}</li>
             ))}
           </StyledUl>
         </InfoDiv>
