@@ -27,12 +27,12 @@ function Signup() {
       return;
     }
 
-    // 회원가입 POST 요청 (파라미터: handle, password, level) (임시로 GET요청)
+    // 회원가입 POST 요청 (파라미터: handle, password, level)
     try {
       const response = await axios.post("/user/signup", {
         handle: idInput.value,
         password: passwordInput.value,
-        level: 16,
+        level: 1,
       });
 
       alert("회원가입 성공!");
