@@ -14,7 +14,8 @@ const InviteScreen = () => {
   const user_id = session.getItem("userId");
   const navigate = useNavigate();
   const params = useParams();
-
+  const title = "";
+  const owner = "";
   // 스터디 가입 요청 보내기
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,8 +41,8 @@ const InviteScreen = () => {
   return (
     <InviteContainer>
       <Title>초대를 수락하시겠습니까?</Title>
-      <StudyInfo>스터디 이름</StudyInfo>
-      <StudyInfo>스터디 방장</StudyInfo>
+      <StudyInfo>{title}</StudyInfo>
+      <StudyInfo>{owner}</StudyInfo>
       <ButtonContainer>
         <AcceptButton onClick={handleSubmit}>수락하기</AcceptButton>
       </ButtonContainer>
