@@ -72,7 +72,7 @@ function SessionProgress() {
   async function fetch() {
     const problemlist = [];
     for (let i = 0; i < sessionInfo.session_problems.length; i++) {
-      const response = await axios.get(`/crawl/problem/${sessionInfo.session_problems[i].problem_id}`);
+      const response = await axios.get(`/api/crawl/problem/${sessionInfo.session_problems[i].problem_id}`);
 
       problemlist.push({
         problem_id: sessionInfo.session_problems[i].problem_id,
@@ -87,7 +87,7 @@ function SessionProgress() {
   }, []);
 
   async function fetchHandel(user_id) {
-    const response = await axios.get(`/user/${user_id}`);
+    const response = await axios.get(`/api/user/${user_id}`);
 
     return response.data.handle;
   }

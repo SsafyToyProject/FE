@@ -20,7 +20,7 @@ const InviteScreen = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/study/signup", {
+      const response = await axios.post("/api/study/signup", {
         user_id: user_id,
         study_code: params.code,
       });

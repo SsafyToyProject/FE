@@ -22,11 +22,11 @@ function StudyList() {
         const userId = sessionStorage.getItem("userId");
 
         // 사용자의 스터디 id 목록 가져오기
-        const userResponse = await axios.get(`/study/user/${userId}`);
+        const userResponse = await axios.get(`/api/study/user/${userId}`);
         const studyIds = userResponse.data.studies.map((study) => study.study_id);
 
         // 각 스터디의 상세 정보 가져오기 (Promise.all을 사용하여 모든 요청을 병렬 처리)
-        const studyInfoResponses = await Promise.all(studyIds.map((studyId) => axios.get(`/study/${studyId}`)));
+        const studyInfoResponses = await Promise.all(studyIds.map((studyId) => axios.get(`/api/study/${studyId}`)));
 
         // 각 스터디 정보를 상태로 저장
         const studies = studyInfoResponses.map((response) => ({

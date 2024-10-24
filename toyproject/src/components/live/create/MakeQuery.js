@@ -120,7 +120,7 @@ function MakeQuery() {
     try {
       setIsLoading(true);
 
-      const response = await axios.post("/crawl/query", {
+      const response = await axios.post("/api/crawl/query", {
         title: queryName.value,
         query_str: queryStr,
       });

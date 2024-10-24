@@ -30,7 +30,7 @@ function CreateLive() {
 
   useEffect(() => {
     async function fetch() {
-      await axios.get("/crawl/query").then((res) => {
+      await axios.get("/api/crawl/query").then((res) => {
         console.log(res.data.items);
         setQueryList(res.data.items);
       });
@@ -88,7 +88,7 @@ function CreateLive() {
           console.log(startstamp);
           console.log(endstamp);
           console.log(problemPool);
-          const response = await axios.post("/session/register", {
+          const response = await axios.post("/api/session/register", {
             study_id: study_id,
             query_id: queryId,
             start_at: startstamp,

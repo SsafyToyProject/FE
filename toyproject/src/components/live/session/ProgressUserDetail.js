@@ -53,7 +53,7 @@ export default function ProgressUserDetail({ user_id, session_id, problem_id, in
 
   async function fetch() {
     try {
-      const response = await axios.get(`/tracker/info/${session_id}/${user_id}/${problem_id}`);
+      const response = await axios.get(`/api/tracker/info/${session_id}/${user_id}/${problem_id}`);
       //console.log(response.data);
       setData(response.data);
     } catch (error) {
