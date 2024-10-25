@@ -37,7 +37,7 @@ function SessionWait() {
   const fetchInfo = async () => {
     try {
       // 세션 아이디로 문제 id 가져오기
-      const response = await axios.get(`/session/${props.session_id}`);
+      const response = await axios.get(`/api/session/${props.session_id}`);
 
       // 세션 정보 저장
       setSessionInfo(response.data);

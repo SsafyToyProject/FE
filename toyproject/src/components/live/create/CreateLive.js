@@ -30,7 +30,7 @@ function CreateLive() {
 
   useEffect(() => {
     async function fetch() {
-      await axios.get("/crawl/query").then((res) => {
+      await axios.get("/api/crawl/query").then((res) => {
         console.log(res.data.items);
         setQueryList(res.data.items);
       });
@@ -88,7 +88,7 @@ function CreateLive() {
           console.log(startstamp);
           console.log(endstamp);
           console.log(problemPool);
-          const response = await axios.post("/session/register", {
+          const response = await axios.post("/api/session/register", {
             study_id: study_id,
             query_id: queryId,
             start_at: startstamp,
@@ -174,18 +174,22 @@ function CreateLive() {
                 {difflist.map((input) => (
                   <DifficultyItem key={input.id}>
                     <Select name="difficulties">
+                      <option value="B5">B5</option>
                       <option value="B4">B4</option>
                       <option value="B3">B3</option>
                       <option value="B2">B2</option>
                       <option value="B1">B1</option>
+                      <option value="S5">S5</option>
                       <option value="S4">S4</option>
                       <option value="S3">S3</option>
                       <option value="S2">S2</option>
                       <option value="S1">S1</option>
+                      <option value="G5">G5</option>
                       <option value="G4">G4</option>
                       <option value="G3">G3</option>
                       <option value="G2">G2</option>
                       <option value="G1">G1</option>
+                      <option value="P%">P5</option>
                       <option value="P4">P4</option>
                       <option value="P3">P3</option>
                       <option value="P2">P2</option>

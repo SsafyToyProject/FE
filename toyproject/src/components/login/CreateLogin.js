@@ -28,7 +28,7 @@ function Login() {
     }
     // 로그인 POST 요청 (파라미터: handle, password)
     try {
-      const response = await axios.post("/user/login", {
+      const response = await axios.post("/api/user/login", {
         handle: idInput.value,
         password: passwordInput.value,
       });
