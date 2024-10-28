@@ -34,7 +34,7 @@ function ProgramMainPage() {
     <div>
       <Nav />
       <PageContainer>
-        <MainTitle>프로그램 이름</MainTitle>
+        <MainTitle>MockCote</MainTitle>
         {sections.map((section, index) => (
           <Container key={index}>
             <BlueBar />
