@@ -17,6 +17,7 @@ export const TableHeader = styled.th`
 `;
 
 export const TableCell = styled.td`
+  height: 100px;
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
