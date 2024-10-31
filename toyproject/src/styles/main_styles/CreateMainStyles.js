@@ -15,7 +15,6 @@ export const PageContainer = styled.div`
 `;
 
 export const MainTitle = styled.h1`
-  font-size: 28px;
   text-align: center;
   margin-bottom: 40px;
 `;
