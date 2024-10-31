@@ -12,6 +12,7 @@ import {
   Title,
 } from "../../styles/login_styles/CreateLoginStyles";
 import useInput from "../../hooks/useInput";
+import Nav from "../common/Nav";
 
 function Login() {
   const idInput = useInput();
@@ -63,30 +64,33 @@ function Login() {
   };
 
   return (
-    <Container>
-      <FormWrapper>
-        <Title>로그인</Title>
-        <form onSubmit={handleSubmit}>
-          <FormGroup>
-            <Label>아이디</Label>
-            <Input type="text" {...idInput} />
-          </FormGroup>
-          <FormGroup>
-            <Label>비밀번호</Label>
-            <Input type="password" {...passwordInput} />
-          </FormGroup>
-          <ButtonGroup>
-            <Button type="button" onClick={() => navigate(-1)}>
-              뒤로가기
-            </Button>
-            <Button type="submit">로그인</Button>
-          </ButtonGroup>
-          <LinkGroup>
-            <Link to={`/signup/${params.code}`}>회원가입하기</Link>
-          </LinkGroup>
-        </form>
-      </FormWrapper>
-    </Container>
+    <>
+      <Nav />
+      <Container>
+        <FormWrapper>
+          <Title>로그인</Title>
+          <form onSubmit={handleSubmit}>
+            <FormGroup>
+              <Label>아이디</Label>
+              <Input type="text" {...idInput} />
+            </FormGroup>
+            <FormGroup>
+              <Label>비밀번호</Label>
+              <Input type="password" {...passwordInput} />
+            </FormGroup>
+            <ButtonGroup>
+              <Button type="button" onClick={() => navigate(-1)}>
+                뒤로가기
+              </Button>
+              <Button type="submit">로그인</Button>
+            </ButtonGroup>
+            <LinkGroup>
+              <Link to={`/signup/${params.code}`}>회원가입하기</Link>
+            </LinkGroup>
+          </form>
+        </FormWrapper>
+      </Container>
+    </>
   );
 }
 
